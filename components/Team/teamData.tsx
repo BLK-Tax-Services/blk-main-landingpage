@@ -5,7 +5,7 @@ const TeamData = [
     mainImage: "/images/about/devin.jpg",
     name: "Devin WIse",
     position: "Founder",
-    description: "A UX designer is the voice of the customer. Our job is to look beyond business goals.",
+    description: "Unveiling the Key Lessons from 2023: Exclusive Insights from Your BLK Team.",
     socials: {
       github: "https://github.com/charleskeith",
       twitter: "https://twitter.com/charleskeith",
@@ -17,7 +17,7 @@ const TeamData = [
     mainImage: "/images/about/mike.jpg",
     name: "Mike Martin",
     position: "Founder",
-    description: "Specializing in building and optimizing user-focused websites and applications.",
+    description: "Unveiling the Key Lessons from 2023: Exclusive Insights from Your BLK Team.",
     socials: {
       github: "https://github.com/samanthalee",
       twitter: "https://twitter.com/samanthalee",
@@ -29,7 +29,7 @@ const TeamData = [
     mainImage: "/images/about/ugh.jpg",
     name: "Ugochukwu Orjinta",
     position: "Tax Analyst",
-    description: "Experienced in agile methodologies and leading cross-functional teams.",
+    description: "Unveiling the Key Lessons from 2023: Exclusive Insights from Your BLK Team.",
     socials: {
       github: "https://github.com/michaelsmith",
       twitter: "https://twitter.com/michaelsmith",
