@@ -12,8 +12,9 @@ module.exports = {
   darkMode: "class",
   theme: {
     fontFamily: {
-      inter: ["Inter", "sans-poppine"],
+      sans: ['Poppins', 'serif'], // Use Poppins for sans family
     },
+
     extend: {
       colors: {
         current: "currentColor",

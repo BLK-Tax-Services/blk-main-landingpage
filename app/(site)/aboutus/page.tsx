@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import AboutComponents from "@/components/AboutComponent/Index";
 import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
+import Team from "@/components/Team";
 
 export const metadata: Metadata = {
   title: "About Us Page - BLK",
@@ -15,6 +16,7 @@ const AboutPage = async () => {
     <>
 
      <AboutComponents/>
+     <Team />
       <CTA />
       <FAQ/>
     </>
