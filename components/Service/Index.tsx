@@ -143,9 +143,7 @@ const ServiceTab = () => {
             </div>
           </motion.div>
 
-          {/* <!-- Tab Menues End --> */}
 
-          {/* <!-- Tab Content Start --> */}
           <motion.div
             variants={{
               hidden: {
@@ -173,10 +171,10 @@ const ServiceTab = () => {
               </div>
             ))}
           </motion.div>
-          {/* <!-- Tab Content End --> */}
+         
         </div>
       </section>
-      {/* <!-- ===== Features Tab End ===== --> */}
+     
     </>
   );
 };
