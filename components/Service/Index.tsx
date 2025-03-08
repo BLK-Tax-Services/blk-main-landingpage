@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import serviceTabData from "@/components/Service/serviceTabData";
 import ServiceTabItem from "@/components/Service/ServiceTabItem";
+import Link from "next/link";
 
 const ServiceTab = () => {
   const [currentTab, setCurrentTab] = useState("tabOne");
@@ -30,12 +31,13 @@ const ServiceTab = () => {
               </p>
 
               <div className=" mt-10 flex flex-wrap gap-5">
-                <button
+                <Link
+                 href="/survey"
                   aria-label="get started button"
                   className="flex rounded-full bg-meta px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
                 >
                   Start Survey
-                </button>
+                </Link>
               </div>
             </div>
 

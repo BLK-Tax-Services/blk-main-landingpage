@@ -159,7 +159,7 @@ const SurveyForm = () => {
 
     try {
       const response = await fetch(
-        "https://blk-backendservice.onrender.com/api/v1/surveys/",
+        "http://192.168.184.101:4000/api/v1/initialSurvey",
         {
           method: "POST",
           headers: {
