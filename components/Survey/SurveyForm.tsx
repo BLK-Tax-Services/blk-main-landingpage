@@ -17,12 +17,26 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 const personal_item = [
-  "Employment (W-2)",
-  "Self-employment (1099-NEC or 1099-K)",
-  "Rent (1099-MISC)",
-  "Royalties (1099-MISC)",
-  "S-corporation (Schedule K-1)",
-  "Estate or trust (Schedule K-1)",
+  // "Employment (W-2)",
+  // "Self-employment (1099-NEC or 1099-K)",
+  // "Rent (1099-MISC)",
+  // "Royalties (1099-MISC)",
+  // "S-corporation (Schedule K-1)",
+  // "Estate or trust (Schedule K-1)",
+  "Retirement distribution (1099-R)",
+  "Social Security (SSA-1099)",
+  "State or local tax refund (1099-G)",
+  "Unemployment compensation (1099-G)",
+  "Interest (1099-INT)",
+  "Dividends (1099-DIV)",
+  "Sold stocks or investments (1099-B)",
+  "Canceled debt (1099-C)",
+  "ESA or 529 distribution (1099-Q)",
+  "HSA or MSA distribution (1099-SA)",
+  "Partnership (Schedule K-1)",
+  "Gambling (W-2G)",
+  "Farming",
+  "Other",
 ];
 const business_items = [
   "Retirement distribution (1099-R)",
