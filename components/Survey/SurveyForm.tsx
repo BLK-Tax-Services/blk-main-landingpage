@@ -45,23 +45,23 @@ const marriageOptions = ["Single", "Married", "Separated", "Divorced"];
 
 const documentKeyMapping = {
   0: "employment_W2",
-  1: "retirementDistribution_1099R",
-  2: "socialSecurity_SSA1099",
-  3: "selfEmployment_1099NEC_1099K",
-  4: "stateOrLocalTaxRefund_1099G",
-  5: "unemploymentCompensation_1099G",
-  6: "interest_1099INT",
-  7: "dividends_1099DIV",
-  8: "soldStockOrInvestments_1099B",
-  9: "canceledDebt_1099C",
-  10: "rent_1099MISC",
-  11: "royalties_1099MISC",
-  12: "ESA_or_529Distribution",
-  13: "HSA_or_MSA_Distribution",
-  14: "partnership_schedule_k1",
-  15: "s_corporation_schedule_k1",
-  16: "estate_or_trust_schedule_k1",
-  17: "gambling_W2G",
+  1: "retirementDistribution",
+  2: "socialSecuritySSA",
+  3: "selfEmployment",
+  4: "stateOrLocalTaxRefund",
+  5: "unemploymentCompensation",
+  6: "interest",
+  7: "dividends",
+  8: "soldStockOrInvestments",
+  9: "canceledDebt",
+  10: "rent",
+  11: "royalties",
+  12: "esaOrFtnDistribution",
+  13: "hsaOrMsaDistribution",
+  14: "partnershipSchedule",
+  15: "sCorporationSchedule",
+  16: "estateOrTrustSchedule",
+  17: "gambling",
   18: "farming",
 };
 
@@ -159,7 +159,7 @@ const SurveyForm = () => {
 
     try {
       const response = await fetch(
-        "http://192.168.184.101:4000/api/v1/initialSurvey",
+        "http://192.168.148.101:4000/api/v1/initialSurvey",
         {
           method: "POST",
           headers: {
