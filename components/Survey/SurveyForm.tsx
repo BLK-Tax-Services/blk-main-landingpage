@@ -5,9 +5,6 @@ import {
   FaFileAlt,
   FaCheckCircle,
   FaDollarSign,
-  FaMoneyBill,
-  FaMoneyCheck,
-  FaRing,
   FaHeart,
   FaPhone,
 } from "react-icons/fa";
@@ -15,7 +12,23 @@ import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+interface FormData {
+  fullName: string;
+  email: string;
+  phone: string;
+}
 
+interface Errors {
+  userType?: string;
+  documents?: string;
+  businessMethod?: string;
+  marriageStatus?: string;
+  fullName?: string;
+  email?: string;
+  phone?: string;
+}
 const personal_item = [
   // "Employment (W-2)",
   // "Self-employment (1099-NEC or 1099-K)",
@@ -78,32 +91,33 @@ const documentKeyMapping = {
   17: "gambling",
   18: "farming",
 };
-
 const SurveyForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [userType, setUserType] = useState("");
   const [businessMethod, setBusinessMethod] = useState("");
-  const [documentCounts, setDocumentCounts] = useState({});
-  const [formData, setFormData] = useState({
+  const [documentCounts, setDocumentCounts] = useState<Record<number, number>>(
+    {},
+  );
+  const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
     phone: "",
-    otherTitle: "",
-    otherValue: "",
   });
   const [marriageStatus, setMarriageStatus] = useState("");
   const [childrenCount, setChildrenCount] = useState(0);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Errors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    const initializeDocumentCounts = (surveyData = null) => {
-      const initialCounts = {};
+    const initializeDocumentCounts = (surveyData: any = null) => {
+      const initialCounts: Record<number, number> = {};
       const itemsToUse =
         userType === "individual" ? personal_item : business_items;
       itemsToUse.forEach((_, index) => {
         initialCounts[index] = surveyData
-          ? surveyData[documentKeyMapping[index]] || 0
+          ? surveyData[
+              documentKeyMapping[index as keyof typeof documentKeyMapping]
+            ] || 0
           : 0;
       });
       setDocumentCounts(initialCounts);
@@ -114,46 +128,92 @@ const SurveyForm = () => {
     }
   }, [userType]);
 
-  const handleNextStep = async () => {
+  const validateStep = () => {
+    const newErrors: Errors = {};
     if (currentStep === 1 && !userType) {
-      alert("Please select a user type to proceed.");
-      return;
+      newErrors.userType = "Please select a user type.";
+    }
+    if (currentStep === 2) {
+      const totalDocuments = Object.values(documentCounts).reduce(
+        (acc, val) => acc + val,
+        0,
+      );
+      if (totalDocuments === 0) {
+        newErrors.documents = "Please select at least one document type.";
+      }
     }
     if (currentStep === 3 && !businessMethod) {
-      alert("Please select a business method to proceed.");
-      return;
+      newErrors.businessMethod = "Please select a business method.";
     }
-    setCurrentStep((prev) => Math.min(prev + 1, 5));
+    if (currentStep === 4 && !marriageStatus) {
+      newErrors.marriageStatus = "Please select your marriage status.";
+    }
+    if (currentStep === 5) {
+      if (!formData.fullName.trim())
+        newErrors.fullName = "Full name is required";
+      if (!formData.email.trim()) {
+        newErrors.email = "Email is required";
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        newErrors.email = "Email is invalid";
+      }
+      if (!formData.phone.trim()) {
+        newErrors.phone = "Phone number is required";
+      } else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ""))) {
+        newErrors.phone = "Phone number must be 10 digits";
+      }
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNextStep = async () => {
+    if (validateStep()) {
+      setCurrentStep((prev) => Math.min(prev + 1, 5));
+    } else {
+      toast.error("Please fix the errors before proceeding.");
+    }
   };
 
   const handleBackStep = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleIncrement = (index) => {
+  const handleIncrement = (index: number) => {
     setDocumentCounts((prev) => ({
       ...prev,
       [index]: prev[index] + 1,
     }));
+    setErrors((prev) => ({ ...prev, documents: undefined }));
   };
 
-  const handleDecrement = (index) => {
+  const handleDecrement = (index: number) => {
     setDocumentCounts((prev) => ({
       ...prev,
       [index]: prev[index] > 0 ? prev[index] - 1 : 0,
     }));
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+    setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
+  const handleFilingSelf = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    setMarriageStatus(isChecked ? "Single" : "");
+    setChildrenCount(isChecked ? 0 : childrenCount);
+    setErrors((prev) => ({ ...prev, marriageStatus: undefined }));
+  };
 
   const handleSubmit = async () => {
+    if (!validateStep()) {
+      toast.error("Please fix the errors in your personal information.");
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -166,37 +226,32 @@ const SurveyForm = () => {
       children: childrenCount,
     };
 
-    [...personal_item, ...business_items].forEach((item, index) => {
-      const documentKey = documentKeyMapping[index];
-      data[documentKey] = documentCounts[index] || 0;
+    Object.keys(documentKeyMapping).forEach((index) => {
+      const documentKey =
+        documentKeyMapping[index as unknown as keyof typeof documentKeyMapping];
+      data[documentKey] = documentCounts[Number(index)] || 0;
     });
 
     try {
       const response = await fetch(
-        "http://192.168.148.101:4000/api/v1/initialSurvey",
+        "http://192.168.228.101:4000/api/v1/initialSurvey",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        }
+        },
       );
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.statusText}`);
       }
 
-      const result = await response.json();
-      alert("Form submitted successfully!");
+      await response.json();
+      toast.success("Form submitted successfully!");
 
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        otherTitle: "",
-        otherValue: "",
-      });
+      setFormData({ fullName: "", email: "", phone: "" });
       setDocumentCounts({});
       setBusinessMethod("");
       setUserType("");
@@ -204,7 +259,7 @@ const SurveyForm = () => {
       setChildrenCount(0);
       setCurrentStep(6);
     } catch (error) {
-      alert("There was an error submitting the form. Please try again later.");
+      toast.error("Error submitting the form. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -214,11 +269,10 @@ const SurveyForm = () => {
     userType === "individual" ? personal_item : business_items;
 
   return (
-    <section className="pb-12.5 pt-32.5 lg:pb-25 lg:pt-45 xl:pb-30 xl:pt-50">
-
+    <section className="pb-12.5 pt-32.5 lg:pb-25 lg:pt-45 xl:pb-30 xl:pt-20">
+      <ToastContainer />
       <div className="relative z-1 mx-auto max-w-c-1016 px-7.5 pb-7.5 pt-10 lg:px-15 lg:pt-15 xl:px-20 xl:pt-20">
-        <div
-          className="absolute left-0 top-0 -z-1 h-2/3 w-full rounded-lg bg-gradient-to-t from-transparent to-[#dee7ff47] dark:bg-gradient-to-t dark:to-[#252A42]"></div>
+        <div className="absolute left-0 top-0 -z-1 h-2/3 w-full rounded-lg bg-gradient-to-t from-transparent to-[#dee7ff47] dark:bg-gradient-to-t dark:to-[#252A42]"></div>
         <div className="absolute bottom-17.5 left-0 -z-1 h-1/3 w-full">
           <Image
             src="/images/shape/shape-dotted-light.svg"
@@ -235,14 +289,8 @@ const SurveyForm = () => {
         </div>
         <motion.div
           variants={{
-            hidden: {
-              opacity: 0,
-              y: -20,
-            },
-            visible: {
-              opacity: 1,
-              y: 0,
-            },
+            hidden: { opacity: 0, y: -20 },
+            visible: { opacity: 1, y: 0 },
           }}
           initial="hidden"
           whileInView="visible"
@@ -257,7 +305,6 @@ const SurveyForm = () => {
               width={119.03}
               height={30}
               className="w-full dark:hidden"
-
             />
           </div>
           <div className="mx-auto w-full max-w-4xl">
@@ -283,8 +330,8 @@ const SurveyForm = () => {
                         currentStep > step
                           ? "bg-green-500 text-white"
                           : currentStep === step
-                            ? "bg-blue-600 text-white"
-                            : "bg-slate-300 text-slate-900"
+                          ? "bg-blue-600 text-white"
+                          : "bg-slate-300 text-slate-900"
                       }`}
                       aria-current={currentStep === step ? "step" : undefined}
                     >
@@ -310,11 +357,13 @@ const SurveyForm = () => {
               {/* Step 1: Select User Type */}
               {currentStep === 1 && (
                 <div className="flex w-full flex-col items-center rounded-lg p-6">
-                  <h1 className="mb-8 text-center text-3xl font-bold">
+                  <h1 className="mb-2 text-center text-3xl font-bold">
                     Select Your User Type
                   </h1>
+                  {errors.userType && (
+                    <p className="mb-6 text-red-500">{errors.userType}</p>
+                  )}
                   <div className="grid w-full max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2">
-                    {/* Individual Option */}
                     <div
                       className={`relative cursor-pointer rounded-lg border-2 bg-white p-6 shadow-lg ${
                         userType === "individual"
@@ -341,8 +390,6 @@ const SurveyForm = () => {
                         />
                       </div>
                     </div>
-
-                    {/* Business Option */}
                     <div
                       className={`relative cursor-pointer rounded-lg border-2 bg-white p-6 shadow-lg ${
                         userType === "business"
@@ -374,9 +421,12 @@ const SurveyForm = () => {
               {/* Step 2: Select Documents */}
               {currentStep === 2 && (
                 <div className="w-full rounded-lg p-6">
-                  <h1 className="mb-6 text-center text-2xl font-bold text-slate-800">
+                  <h1 className="mb-2 text-center text-2xl font-bold text-slate-800">
                     Select Your Document Type
                   </h1>
+                  {errors.documents && (
+                    <p className="mb-6 text-red-500">{errors.documents}</p>
+                  )}
                   <div className="grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2">
                     {displayedItems.map((item, index) => (
                       <div
@@ -393,7 +443,7 @@ const SurveyForm = () => {
                             -
                           </button>
                           <span className="w-8 border border-gray-300 bg-gray-100 text-center">
-                            {documentCounts[index]}
+                            {documentCounts[index] || 0}
                           </span>
                           <button
                             type="button"
@@ -412,11 +462,13 @@ const SurveyForm = () => {
               {/* Step 3: Select Payment Method */}
               {currentStep === 3 && (
                 <div className="flex w-full flex-col items-center rounded-lg p-6">
-                  <h1 className="mb-8 text-center text-3xl font-bold">
+                  <h1 className="mb-2 text-center text-3xl font-bold">
                     Select How You Would Like to Pay
                   </h1>
+                  {errors.businessMethod && (
+                    <p className="mb-6 text-red-500">{errors.businessMethod}</p>
+                  )}
                   <div className="grid w-full max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2">
-                    {/* Invoice/Card Option */}
                     <div
                       className={`relative cursor-pointer rounded-lg border-2 bg-white p-6 shadow-lg ${
                         businessMethod === "invoice"
@@ -444,8 +496,6 @@ const SurveyForm = () => {
                         />
                       </div>
                     </div>
-
-                    {/* Refund Option */}
                     <div
                       className={`relative cursor-pointer rounded-lg border-2 bg-white p-6 shadow-lg ${
                         businessMethod === "refund"
@@ -478,9 +528,12 @@ const SurveyForm = () => {
               {/* Step 4: Marriage and Family Status */}
               {currentStep === 4 && (
                 <div className="flex w-full flex-col items-center rounded-lg p-6">
-                  <h1 className="mb-8 text-center text-3xl font-bold">
+                  <h1 className="mb-2 text-center text-3xl font-bold">
                     Marriage and Family Status
                   </h1>
+                  {errors.marriageStatus && (
+                    <p className="mb-6 text-red-500">{errors.marriageStatus}</p>
+                  )}
                   <div className="w-full p-6">
                     <div className="mb-6">
                       <input
@@ -488,11 +541,7 @@ const SurveyForm = () => {
                         id="filing-self"
                         className="form-checkbox mr-2 h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
                         checked={marriageStatus === "Single"}
-                        onChange={() =>
-                          setMarriageStatus(
-                            marriageStatus === "Single" ? "" : "Single",
-                          )
-                        }
+                        onChange={handleFilingSelf}
                       />
                       <label
                         htmlFor="filing-self"
@@ -512,7 +561,13 @@ const SurveyForm = () => {
                         id="marriage-status"
                         name="marriageStatus"
                         value={marriageStatus}
-                        onChange={(e) => setMarriageStatus(e.target.value)}
+                        onChange={(e) => {
+                          setMarriageStatus(e.target.value);
+                          setErrors((prev) => ({
+                            ...prev,
+                            marriageStatus: undefined,
+                          }));
+                        }}
                         className="form-select w-full rounded border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       >
@@ -526,7 +581,6 @@ const SurveyForm = () => {
                         ))}
                       </select>
                     </div>
-
                     <div className="flex items-center justify-between">
                       <label className="text-xl font-bold">
                         Children/Dependents
@@ -538,6 +592,7 @@ const SurveyForm = () => {
                             setChildrenCount(Math.max(childrenCount - 1, 0))
                           }
                           className="rounded-bl rounded-tl border border-gray-400 bg-gray-200 px-2 py-0 text-black shadow hover:bg-gray-300"
+                          disabled={marriageStatus === "Single"}
                         >
                           -
                         </button>
@@ -548,6 +603,7 @@ const SurveyForm = () => {
                           type="button"
                           onClick={() => setChildrenCount(childrenCount + 1)}
                           className="rounded-br rounded-tr border border-blue-700 bg-blue-600 px-2 py-0 text-white shadow hover:bg-blue-700"
+                          disabled={marriageStatus === "Single"}
                         >
                           +
                         </button>
@@ -560,42 +616,49 @@ const SurveyForm = () => {
               {/* Step 5: Personal Information */}
               {currentStep === 5 && (
                 <div className="w-full rounded-lg p-6">
-                  <h1 className="mb-6 text-center text-2xl font-bold text-slate-800">
+                  <h1 className="mb-2 text-center text-2xl font-bold text-slate-800">
                     Your Personal Information
                   </h1>
-
-                  <div className="mb-10 space-y-10 ">
+                  {(errors.fullName || errors.email || errors.phone) && (
+                    <p className="mb-6 text-red-500">
+                      {errors.fullName || errors.email || errors.phone}
+                    </p>
+                  )}
+                  <div className="mb-10 space-y-10">
                     <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
-                      <input
-                        id="full-name"
-                        name="fullName"
-                        placeholder="Full name"
-                        value={formData.fullName}
-                        onChange={handleChange}
-                        className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
-                        type="text"
-                        required
-                      />
-
-                      <input
-                        id="email"
-                        name="email"
-                        placeholder="Email address"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
-                        type="email"
-                        required
-                      />
+                      <div className="w-full lg:w-1/2">
+                        <input
+                          id="full-name"
+                          name="fullName"
+                          placeholder="Full name"
+                          value={formData.fullName}
+                          onChange={handleChange}
+                          className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white"
+                          type="text"
+                          required
+                        />
+                      </div>
+                      <div className="w-full lg:w-1/2">
+                        <input
+                          id="email"
+                          name="email"
+                          placeholder="Email address"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white"
+                          type="email"
+                          required
+                        />
+                      </div>
                     </div>
-                    <div>
+                    <div className="w-full lg:w-1/2">
                       <input
                         id="phone"
                         name="phone"
                         placeholder="Phone Number"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
+                        className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white"
                         type="tel"
                         required
                       />
@@ -626,12 +689,12 @@ const SurveyForm = () => {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="mx-auto mt-8 flex w-full max-w-3xl items-center justify-between">
-              {currentStep !== 1 ? (
+            <div className="mx-auto mt-8 flex w-full max-w-3xl items-center justify-between gap-2">
+              {currentStep > 1 && currentStep < 6 ? (
                 <button
                   type="button"
                   onClick={handleBackStep}
-                  className="text-body-color dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
+                  className="text-body-color dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-lg border border-stroke bg-[#f8f8f8] px-6 py-3 text-base outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
                 >
                   Previous
                 </button>
@@ -642,7 +705,7 @@ const SurveyForm = () => {
                 <button
                   type="button"
                   onClick={handleNextStep}
-                  className="text-body-color dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
+                  className="dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-lg border border-stroke bg-primary px-6 py-3 text-base text-white outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
                 >
                   Next
                 </button>
@@ -651,7 +714,7 @@ const SurveyForm = () => {
                   type="button"
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className={`text-body-color dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none ${
+                  className={`text-body-color dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-lg border border-stroke bg-[#f8f8f8] px-6 py-3 text-base outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none ${
                     isSubmitting ? "cursor-not-allowed opacity-50" : ""
                   }`}
                 >
