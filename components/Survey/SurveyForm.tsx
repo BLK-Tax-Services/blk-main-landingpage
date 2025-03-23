@@ -234,7 +234,7 @@ const SurveyForm = () => {
 
     try {
       const response = await fetch(
-        "http://192.168.228.101:4000/api/v1/initialSurvey",
+        "http://138.197.16.211/api/v1/initialSurvey",
         {
           method: "POST",
           headers: {
