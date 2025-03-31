@@ -15,7 +15,7 @@ const FAQ = () => {
   return (
     <>
       {/* <!-- ===== FAQ Start ===== --> */}
-      <section className="overflow-hidden pb-20 lg:pb-25 xl:pb-30">
+      <section className="overflow-hidden pb-20 lg:pb-25 xl:pb-30 font-boldnose">
         <div className="relative mx-auto max-w-c-1235 px-4 md:px-8 xl:px-0">
           <div className="absolute -bottom-16 -z-1 h-full w-full">
             <Image
@@ -50,12 +50,12 @@ const FAQ = () => {
               viewport={{ once: true }}
               className="animate_left md:w-2/5 lg:w-1/2"
             >
-              <span className="font-medium uppercase text-black dark:text-white">
+              <span className="font-medium uppercase text-2xl text-black dark:text-white">
                 OUR FAQS
               </span>
-              <h2 className="relative mb-6 text-3xl font-bold text-black dark:text-white xl:text-hero">
+              <h2 className="relative mb-6 mt-9 text-3xl font-bold text-black dark:text-white xl:text-hero boldonse-regular">
                 Frequently Asked
-                <span className="relative inline-block before:absolute before:bottom-2.5 before:left-0 before:-z-1 before:h-3 before:w-full before:bg-titlebg2 dark:before:bg-titlebgdark">
+                <span className="boldonse-regular relative inline-block before:absolute before:bottom-2.5 before:left-0 before:-z-1 before:h-3 before:w-full before:bg-titlebg2 dark:before:bg-titlebgdark">
                   Questions
                 </span>
               </h2>

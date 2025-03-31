@@ -27,13 +27,13 @@ const About = () => {
               viewport={{ once: true }}
               className="animate_left md:w-1/2"
             >
-              <span className="border-1 mb-4 mr-4 inline-flex rounded-full border border-meta px-4.5 py-1 text-metatitle  text-meta ">
+              <span className="border-1 mb-4 mr-4 inline-flex  font-boldnose rounded-full border border-meta px-4.5 py-1 text-metatitle  text-meta ">
                 Services
               </span>
-              <h2 className="relative mb-6 text-3xl font-bold text-black dark:text-white xl:text-hero">
+              <h2 className="relative mb-6 text-3xl font-bold font-boldnose text-black dark:text-white xl:text-hero">
                 Personal Tax Preparation
               </h2>
-              <p>
+              <p className="font-boldnose">
                 Whatever tax needs you have, our tax professionals will get the
                 job done at the highest quality, most affordable price. Get
                 expert help with your personal tax preparation maximize your
@@ -45,7 +45,7 @@ const About = () => {
                   href="#"
                   className="group mt-7.5 inline-flex items-center gap-2.5 text-black hover:text-primary dark:text-white dark:hover:text-primary"
                 >
-                  <span className="duration-300 group-hover:pr-2">
+                  <span className="duration-300 group-hover:pr-2 font-boldnose">
                     Learn More
                   </span>
                   <svg
@@ -75,7 +75,7 @@ const About = () => {
               whileInView="visible"
               transition={{ duration: 1, delay: 0.1 }}
               viewport={{ once: true }}
-              className="animate_left relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2"
+              className="animate_left relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2 font-boldnose"
             >
               <div className="mt-22 flex items-center gap-5">
                 <div className="flex h-15 w-15 items-center justify-center rounded-[50%] border border-stroke dark:border-strokedark dark:bg-blacksection">
@@ -83,7 +83,7 @@ const About = () => {
                     01
                   </p>
                 </div>
-                <div className="w-3/4">
+                <div className="w-3/4 ">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
                     Initial Consultation
                   </h3>
@@ -163,7 +163,7 @@ const About = () => {
               <Image
                 src="/images/about/about-light-01.svg"
                 alt="About"
-                className="dark:hidden"
+                className=""
                 fill
               />
             </motion.div>
@@ -183,7 +183,7 @@ const About = () => {
               whileInView="visible"
               transition={{ duration: 0.5, delay: 0.1 }}
               viewport={{ once: true }}
-              className="animate_right md:w-1/2"
+              className="animate_right md:w-1/2 font-boldnose"
             >
               <span className="border-1 mb-4 mr-4 inline-flex rounded-full border border-meta px-4.5 py-1 text-metatitle  text-meta ">
                 About Us
@@ -210,9 +210,9 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Register Your Account
+                    Fill our survey
                   </h3>
-                  <p>Create your account us to get started.</p>
+                  <p>Fill up a small survey that helps us send you a quote.</p>
                 </div>
               </div>
               <div className="mt-7.5 flex items-center gap-5">
@@ -223,11 +223,10 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Submit your Tax Documents
+                    Recieve a quote
                   </h3>
                   <p>
-                    Upload your financial information securely through our
-                    platform.
+                    Recieve a quote within 24 hours through your email.
                   </p>
                 </div>
               </div>
@@ -235,6 +234,21 @@ const About = () => {
                 <div className="flex h-15 w-15 items-center justify-center rounded-[50%] border border-stroke dark:border-strokedark dark:bg-blacksection">
                   <p className="text-metatitle2 font-semibold text-black dark:text-white">
                     03
+                  </p>
+                </div>
+                <div className="w-3/4">
+                  <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
+                    Upload your tax documents
+                  </h3>
+                  <p>
+                    Upload your tax documents in your client portal.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-7.5 flex items-center gap-5">
+                <div className="flex h-15 w-15 items-center justify-center rounded-[50%] border border-stroke dark:border-strokedark dark:bg-blacksection">
+                  <p className="text-metatitle2 font-semibold text-black dark:text-white">
+                    04
                   </p>
                 </div>
                 <div className="w-3/4">

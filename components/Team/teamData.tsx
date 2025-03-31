@@ -1,11 +1,11 @@
-// teamData.js
 const TeamData = [
   {
     _id: 1,
     mainImage: "/images/about/devin.jpg",
-    name: "Devin WIse",
+    name: "Devin Wise",
     position: "Founder",
-    description: "Unveiling the Key Lessons from 2023: Exclusive Insights from Your BLK Team.",
+    description:
+      "Devin Wise is the mastermind behind our innovative tax strategies. He specializes in creating personalized tax solutions that help individuals optimize their returns while ensuring complete compliance.",
     socials: {
       github: "https://github.com/charleskeith",
       twitter: "https://twitter.com/charleskeith",
@@ -15,9 +15,10 @@ const TeamData = [
   {
     _id: 2,
     mainImage: "/images/about/mike.jpg",
-    name: "Mike Martin",
+    name: "Michael Martin",
     position: "Founder",
-    description: "Unveiling the Key Lessons from 2023: Exclusive Insights from Your BLK Team.",
+    description:
+      "Michael Martin brings decades of experience in corporate taxation to the table. His expertise in streamlining complex tax structures and driving efficiency has been pivotal in transforming tax processes for businesses.",
     socials: {
       github: "https://github.com/samanthalee",
       twitter: "https://twitter.com/samanthalee",
@@ -26,28 +27,17 @@ const TeamData = [
   },
   {
     _id: 3,
-    mainImage: "/images/about/ugh.jpg",
+    mainImage: "/images/about/ugo.png",
     name: "Ugochukwu Orjinta",
     position: "Tax Analyst",
-    description: "Unveiling the Key Lessons from 2023: Exclusive Insights from Your BLK Team.",
+    description:
+      "Ugochukwu Orjinta excels in detailed tax analysis and planning, ensuring that every deduction and credit is maximized. His insights empower both individuals and businesses to make informed financial decisions.",
     socials: {
       github: "https://github.com/michaelsmith",
       twitter: "https://twitter.com/michaelsmith",
       instagram: "https://instagram.com/michaelsmith",
     },
   },
-  // {
-  //   _id: 3,
-  //   mainImage: "/images/blog/blog-03.png",
-  //   name: "Chante Martin",
-  //   position: "Marketing and Community Relations Lead",
-  //   description: "Experienced in agile methodologies and leading cross-functional teams.",
-  //   socials: {
-  //     github: "https://github.com/michaelsmith",
-  //     twitter: "https://twitter.com/michaelsmith",
-  //     instagram: "https://instagram.com/michaelsmith",
-  //   },
-  // },
 ];
 
 export default TeamData;
