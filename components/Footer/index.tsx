@@ -5,7 +5,7 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <>
-      <footer className="border-t border-stroke bg-white dark:border-strokedark dark:bg-blacksection">
+      <footer className="border-t border-stroke bg-white dark:border-strokedark dark:bg-blacksection font-boldnose">
         <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
           {/* <!-- Footer Top --> */}
           <div className="py-20 lg:py-25">
@@ -40,7 +40,7 @@ const Footer = () => {
                 </a>
 
                 <p className="mb-10 mt-5">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Virtual tax preparation designed to heavy lift and maximize your returns!
                 </p>
 
                 <p className="mb-1.5 text-sectiontitle uppercase tracking-[5px]">
@@ -50,7 +50,7 @@ const Footer = () => {
                   href="#"
                   className="text-itemtitle font-medium text-black dark:text-white"
                 >
-                  hello@gmail.com
+                  info@blktaxservices.com
                 </a>
               </motion.div>
 
@@ -192,7 +192,7 @@ const Footer = () => {
                   <h4 className="mb-9 text-itemtitle2 font-medium text-black dark:text-white">
                     Newsletter
                   </h4>
-                  <p className="mb-4 w-[90%]">
+                  <p className="mb-5 w-[90%]">
                     Subscribe to receive future updates
                   </p>
 

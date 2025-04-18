@@ -1,27 +1,34 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-
 import { motion } from "framer-motion";
 import serviceTabData from "@/components/Service/serviceTabData";
 import ServiceTabItem from "@/components/Service/ServiceTabItem";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+
+// Dynamically import the LottieAnimation, disabling SSR:
+const LottieAnimation = dynamic(() => import("@/app/(site)/services/taxLottie"), {
+  ssr: false,
+});
 
 const ServiceTab = () => {
   const [currentTab, setCurrentTab] = useState("tabOne");
 
   return (
     <>
-      <section className=" overflow-hidden bg-gray-50 pb-20 pt-35 md:pt-40 xl:pb-25 xl:pt-46">
-        <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
+      <section className="overflow-hidden bg-gray-50 pb-20 pt-35 md:pt-40 xl:pb-25 xl:pt-46 dark:bg-[#151A21] font-boldnose">
+        <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0 dark:bg-[#151A21]">
           <div className="flex lg:items-center lg:gap-8 xl:gap-32.5">
-            <div className=" md:w-1/2">
-              <span className="border-1 mb-4 mr-4 inline-flex rounded-full border border-meta px-4.5 py-1 text-metatitle  text-meta ">
-                Service
+            {/* Left Text Column */}
+            <div className="md:w-1/3.5">
+              <span className="border-1 mb-4 mr-4 inline-flex rounded-full border border-meta px-4.5 py-1 text-metatitle dark:text-white text-meta">
+                Services
               </span>
-              <h1 className="mb-5 pr-16 text-3xl font-bold text-black dark:text-white xl:text-hero ">
-                Elevate Your Business
-                <span className="relative text-meta inline-block before:absolute before:bottom-2.5 before:left-0 before:-z-1 before:h-3 before:w-full before:bg-titlebg dark:before:bg-titlebgdark ">
-                  With Our  Services
+              <h1 className="mb-5 pr-16 text-xl font-bold text-black dark:text-white xl:text-hero boldonse-regular">
+                Elevate Your Business{" "}
+                <span className="relative inline-block text-meta before:absolute before:bottom-2.5 before:left-0 before:-z-10 before:h-3 before:w-full before:bg-titlebg dark:before:bg-titlebgdark">
+                  With Our Services
                 </span>
               </h1>
               <p>
@@ -29,25 +36,23 @@ const ServiceTab = () => {
                 with our comprehensive business solutions.
               </p>
 
-              <div className=" mt-10 flex flex-wrap gap-5">
-                <button
+              <div className="mt-10 flex flex-wrap gap-5">
+                <Link
+                  href="/survey"
                   aria-label="get started button"
-                  className="flex rounded-full bg-meta px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
+                  className="flex rounded-md bg-meta px-7.5 py-2.5 font-sans text-white duration-300 ease-in-out hover:bg-blackho"
                 >
-                  Start Survey
-                </button>
+                  Explore Services
+                </Link>
               </div>
             </div>
 
-            <div className="animate_right hidden md:w-1/2 lg:block">
+            {/* Right Animation Column (Lottie) */}
+            <div className="animate_right hidden md:w-1/2 lg:block mt-10">
               <div className="relative 2xl:-mr-7.5">
-                <div className=" relative aspect-[700/444] w-full">
-                  <Image
-                    className="shadow-solid-l dark:hidden"
-                    src="/images/about/chart.svg"
-                    alt="Hero"
-                    fill
-                  />
+                <div className="relative aspect-[700/444] w-full -mt-10">
+                  {/* Our dynamically imported Lottie */}
+                  <LottieAnimation />
                 </div>
               </div>
             </div>
@@ -60,23 +65,16 @@ const ServiceTab = () => {
           <div className="absolute -top-16 -z-1 mx-auto h-[350px] w-[90%]">
             <Image
               fill
-              className="dark:hidden"
               src="/images/shape/shape-dotted-light.svg"
               alt="Dotted Shape"
             />
           </div>
 
+          {/* Tab Buttons */}
           <motion.div
             variants={{
-              hidden: {
-                opacity: 0,
-                y: -20,
-              },
-
-              visible: {
-                opacity: 1,
-                y: 0,
-              },
+              hidden: { opacity: 0, y: -20 },
+              visible: { opacity: 1, y: 0 },
             }}
             initial="hidden"
             whileInView="visible"
@@ -98,7 +96,7 @@ const ServiceTab = () => {
                 </p>
               </div>
               <div className="md:w-3/5 lg:w-auto">
-                <button className="text-sm font-medium text-black dark:text-white xl:text-regular">
+                <button className="text-xl font-medium text-black dark:text-white xl:text-regular">
                   Personal Tax Preparation
                 </button>
               </div>
@@ -143,18 +141,11 @@ const ServiceTab = () => {
             </div>
           </motion.div>
 
-
+          {/* Tab Content */}
           <motion.div
             variants={{
-              hidden: {
-                opacity: 0,
-                y: -20,
-              },
-
-              visible: {
-                opacity: 1,
-                y: 0,
-              },
+              hidden: { opacity: 0, y: -20 },
+              visible: { opacity: 1, y: 0 },
             }}
             initial="hidden"
             whileInView="visible"
@@ -171,10 +162,8 @@ const ServiceTab = () => {
               </div>
             ))}
           </motion.div>
-         
         </div>
       </section>
-     
     </>
   );
 };

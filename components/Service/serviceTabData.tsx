@@ -1,40 +1,78 @@
+// /components/Service/serviceTabData.ts
 
 const serviceTabData = [
   {
     id: "tabOne",
     title: "Personal Tax Preparation",
-    description:
-      "Get help preparing your personal taxes quickly and accurately.",
-    category: "Personal Tax Preparation",
-    imageUrl: "/images/features/price.svg",
-    price: "$150.00",
+    items: [
+      {
+        id: "personal1",
+        title: "Basic Personal Tax Preparation",
+        description: "Prepare your individual tax returns with ease.",
+        price: "$150.00",
+      },
+      {
+        id: "personal2",
+        title: "Premium Personal Tax Filing",
+        description: "Advanced support for complex individual returns.",
+        price: "$200.00",
+      },
+      {
+        id: "personal3",
+        title: "Self-Employed Tax Support",
+        description: "Expert guidance for freelancers and contractors.",
+        price: "$180.00",
+      },
+    ],
   },
   {
     id: "tabTwo",
     title: "Tax Planning & Analysis",
-    description: "Plan ahead with our comprehensive tax analysis services.",
-    category: "Tax Planning & Analysis",
-    imageUrl: "/images/features/price.svg",
-    price: "$200.00",
+    items: [
+      {
+        id: "analysis1",
+        title: "Standard Tax Analysis",
+        description: "Plan ahead with comprehensive tax analysis services.",
+        price: "$220.00",
+      },
+      {
+        id: "analysis2",
+        title: "Advanced Tax Strategy",
+        description: "Optimize your taxes for maximum savings.",
+        price: "$350.00",
+      },
+      {
+        id: "analysis3",
+        title: "Tax Audit Prep",
+        description: "Audit preparation and representation for peace of mind.",
+        price: "$400.00",
+      },
+    ],
   },
   {
     id: "tabThree",
     title: "Business Tax Services",
-    description: "Professional tax services for your business needs.",
-    category: "Business Tax",
-    imageUrl: "/images/features/price.svg",
-    price: "$300.00",
+    items: [
+      {
+        id: "business1",
+        title: "Small Business Tax",
+        description: "Comprehensive support for small business tax returns.",
+        price: "$300.00",
+      },
+      {
+        id: "business2",
+        title: "Corporate Tax Strategy",
+        description: "Tailored tax solutions for large enterprises.",
+        price: "$500.00",
+      },
+      {
+        id: "business3",
+        title: "Tax Audit Support",
+        description: "Prepare and navigate audits with expert guidance.",
+        price: "$400.00",
+      },
+    ],
   },
-  {
-    id: "tabFour",
-    title: "Payroll Tax Services",
-    description:
-      "Reliable payroll tax services to keep your business running smoothly.",
-    category: "Payroll Tax",
-    imageUrl: "/images/features/price.svg",
-    price: "$250.00",
-  },
-
 ];
 
 export default serviceTabData;

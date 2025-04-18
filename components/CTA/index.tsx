@@ -7,7 +7,7 @@ const CTA = () => {
   return (
     <>
       {/* <!-- ===== CTA Start ===== --> */}
-      <section className="overflow-hidden px-4 py-20 md:px-8 lg:py-25 xl:py-30 2xl:px-0">
+      <section className="overflow-hidden px-4 py-20 md:px-8 lg:py-25 xl:py-30 2xl:px-0 font-boldnose">
         <div className="mx-auto max-w-c-1390 rounded-lg bg-gradient-to-t from-[#F8F9FF] to-[#DEE7FF] px-7.5 py-12.5 dark:bg-blacksection dark:bg-gradient-to-t dark:from-transparent dark:to-transparent dark:stroke-strokedark md:px-12.5 xl:px-17.5 xl:py-0">
           <div className="flex flex-wrap gap-8 md:flex-nowrap md:items-center md:justify-between md:gap-0">
             <motion.div
@@ -32,9 +32,7 @@ const CTA = () => {
                 Join With Us Today & Increase Your Productivity
               </h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                convallis tortor eros. Donec vitae tortor lacus. Phasellus
-                aliquam ante in maximus.
+
               </p>
             </motion.div>
             <motion.div
@@ -57,31 +55,31 @@ const CTA = () => {
             >
               <div className="flex items-center justify-end xl:justify-between">
                 <Image
-                  width={299}
+                  width={290}
                   height={299}
-                  src="/images/shape/shape-06.png"
+                  src="/images/shape/shape-09.png"
                   alt="Saly"
                   className="hidden xl:block"
                 />
                 <a
-                  href="/auth/signup"
-                  className="inline-flex items-center gap-2.5 rounded-full bg-meta px-6 py-3 font-medium text-white hover:opacity-90 dark:bg-white dark:text-black"
+                  href="/survey"
+                  className="inline-flex items-center gap-2.5 rounded-md bg-meta px-6 py-3 font-medium dark:text-white text-white hover:opacity-90 dark:bg-blue-600 dark:text-black"
                 >
                   Start Survey
-                  <Image
-                    width={20}
-                    height={20}
-                    src="/images/icon/icon-arrow-dark.svg"
-                    alt="Arrow"
-                    className="dark:hidden"
-                  />
-                  <Image
-                    width={20}
-                    height={20}
-                    src="/images/icon/icon-arrow-light.svg"
-                    alt="Arrow"
-                    className="hidden dark:block"
-                  />
+                  {/*<Image*/}
+                  {/*  width={20}*/}
+                  {/*  height={20}*/}
+                  {/*  src="/images/icon/icon-arrow-dark.svg"*/}
+                  {/*  alt="Arrow"*/}
+                  {/*  className=""*/}
+                  {/*/>*/}
+                  {/*<Image*/}
+                  {/*  width={20}*/}
+                  {/*  height={20}*/}
+                  {/*  src="/images/icon/icon-arrow-light.svg"*/}
+                  {/*  alt="Arrow"*/}
+                  {/*  className="hidden dark:block"*/}
+                  {/*/>*/}
                 </a>
               </div>
             </motion.div>
