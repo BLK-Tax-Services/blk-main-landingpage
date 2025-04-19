@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
+import * as process from "node:process";
 
 const Contact = () => {
   // All hooks are called unconditionally.
@@ -35,7 +36,7 @@ const Contact = () => {
   const handleAISalesBot = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/outbound", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_AI_APP_URL}/outbound`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
