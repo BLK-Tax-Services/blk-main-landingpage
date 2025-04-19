@@ -11,9 +11,9 @@ export default function Hero() {
         <div className="flex flex-col-reverse items-center gap-10 lg:flex-row lg:items-center lg:gap-8 xl:gap-32.5">
           {/* Left Text Column */}
           <div className="md:w-1/2.2">
-            <h1 className="mb-6 boldonse-regular font-extrabold leading-tight text-black sm:text-4xl lg:text-9xl xl:text-hero dark:text-white">
+            <h1 className="mb-6 font-sans font-extrabold leading-tight text-black sm:text-4xl lg:text-9xl xl:text-6xl dark:text-white">
               Manage Your Taxes With{" "}
-              <span className="relative inline-block text-meta before:absolute before:bottom-1.5 before:left-0 before:-z-10 before:h-3 before:w-full before:bg-primary/20 dark:text-blue-500">
+              <span className="relative font-sans inline-block text-meta before:absolute before:bottom-1.5 before:left-0 before:-z-10 before:h-3 before:w-full before:bg-primary/20 dark:text-blue-500">
                 BLK Tax Services
               </span>
             </h1>

@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
