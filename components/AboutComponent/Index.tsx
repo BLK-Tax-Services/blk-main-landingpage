@@ -1,12 +1,9 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import { Timeline } from "@/components/ui/timeline";
 import { motion } from "framer-motion";
-import { BadgeCheck, Check } from "lucide-react";
-// import your timeline data or define inline
-// import { timelineData } from "./somewhere"; // if needed
+import { Check } from "lucide-react";
 
 export default function AboutComponents() {
   // Example timeline data from your snippet (you can adjust content/images)
@@ -154,7 +151,7 @@ export default function AboutComponents() {
       </section>
 
       {/* === Timeline Section === */}
-      <section className="overflow-hidden bg-gray-50 py-20 dark:bg-[#151A21] font-boldnose dark:bg-gray-900">
+      <section className="overflow-hidden bg-gray-50 py-20 dark:bg-[#151A21] font-boldnose">
         <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
           <h2 className="mb-8 text-3xl font-extrabold boldonse-regular text-black dark:text-white sm:text-4xl lg:text-5xl text-center">
             Our Journey

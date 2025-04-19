@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 
 const Contact = () => {
   // All hooks are called unconditionally.

@@ -25,7 +25,7 @@ const ServiceTab = () => {
               <span className="border-1 mb-4 mr-4 inline-flex rounded-full border border-meta px-4.5 py-1 text-metatitle dark:text-white text-meta">
                 Services
               </span>
-              <h1 className="mb-5 pr-16 text-xl font-bold text-black dark:text-white xl:text-hero boldonse-regular">
+              <h1 className="mb-5 pr-16 text-xl font-bold text-black dark:text-white xl:text-6xl font-sans">
                 Elevate Your Business{" "}
                 <span className="relative inline-block text-meta before:absolute before:bottom-2.5 before:left-0 before:-z-10 before:h-3 before:w-full before:bg-titlebg dark:before:bg-titlebgdark">
                   With Our Services
