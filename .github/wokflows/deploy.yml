@@ -46,7 +46,7 @@ jobs:
             chmod 600 ~/.ssh/github_deploy_key
             # Set PATH for npm and pm2 (adjust as needed)
             export PATH=$PATH:/usr/local/bin:/home/blk/.nvm/versions/node/*/bin
-            cd /home/blk/backend
+            cd /home/blk/website
             GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key" git pull origin production
             
             # Fix PATH issue for non-interactive SSH sessions
