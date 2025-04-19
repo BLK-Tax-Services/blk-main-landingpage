@@ -241,7 +241,7 @@ const SurveyForm = () => {
     });
 
     try {
-      const response = await fetch("http://127.0.0.1:4000/api/v1/initialSurvey", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/initialSurvey`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
