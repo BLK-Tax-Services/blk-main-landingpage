@@ -6,7 +6,7 @@ on:
       - production  # Change this if needed
 
 jobs:
-  dev-deploy:
+  Landing Page Deployment:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,7 +34,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "./.next/" # Assuming your build output is in a 'dist' folder
+          source: "./.next/,./package.json,./package-lock.json,./public/"
           target: "/home/blk/landing"
           overwrite: true
           port: 22  # Adjust if using non-standard SSH port
@@ -49,6 +49,6 @@ jobs:
           script: |
             echo "✅ Connected via SSH to $(whoami)@$(hostname)"
             export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.npm-global/bin:$HOME/.nvm/versions/node/v22.12.0/bin
-            echo "🚀 Restarting all PM2 services..."
-            pm2 restart all
+            echo "🚀 Restarting all PM2 process..."
+            pm2 restart landing || pm2 start npm --name landing -- start
             echo "✅ Successfully deployed the landing page app!"
