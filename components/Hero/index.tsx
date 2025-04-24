@@ -1,42 +1,37 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { LayoutGroup, motion } from "framer-motion"; // or "motion/react"
+import { LayoutGroup, motion } from "framer-motion";
 import TextRotate from "@/fancy/components/text/text-rotate";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-transparent pb-20 pt-28 md:pt-40 xl:pb-28 xl:pt-44 dark:bg-gray-900]">
-      <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
-        <div className="flex flex-col-reverse items-center gap-10 lg:flex-row lg:items-center lg:gap-8 xl:gap-32.5">
+    <section className="relative overflow-hidden bg-transparent pb-16 pt-24 md:pb-20 md:pt-32 xl:pb-28 xl:pt-44 dark:bg-gray-900">
+      <div className="mx-auto max-w-screen-xl px-4 md:px-8">
+        <div className="flex flex-col-reverse items-center gap-y-10 lg:flex-row lg:gap-x-16 xl:gap-x-32">
           {/* Left Text Column */}
-          <div className="md:w-1/2.2">
-            <h1 className="mb-6 font-sans font-extrabold leading-tight text-black sm:text-4xl lg:text-9xl xl:text-6xl dark:text-white">
-              Manage Your Taxes With{" "}
-              <span className="relative font-sans inline-block text-meta before:absolute before:bottom-1.5 before:left-0 before:-z-10 before:h-3 before:w-full before:bg-primary/20 dark:text-blue-500">
+          <div className="w-full lg:w-1/2">
+            <h1 className="mb-6 font-sans font-extrabold leading-tight text-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl dark:text-white">
+              Manage Your Taxes With
+              <br className="block lg:hidden" />
+              <span className="relative inline-block text-blue-600 before:absolute before:-bottom-1 before:left-0 before:h-2 before:w-full before:bg-primary/20">
                 BLK Tax Services
               </span>
             </h1>
 
-            {/* Responsive Rotating Text Section */}
+            {/* Responsive Rotating Text */}
             <LayoutGroup>
               <motion.div
                 layout
                 transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                className="flex flex-col md:flex-row items-start md:items-center gap-1 text-base font-light text-gray-800 md:text-lg dark:text-white"
+                className="flex flex-col md:flex-row items-start md:items-center gap-2 text-base sm:text-lg font-light text-gray-800 dark:text-white"
               >
-                <span className="md:whitespace-nowrap">
+                <span className="whitespace-normal md:whitespace-nowrap">
                   Virtual tax preparation services to make your tax filing
                 </span>
-                <span className="relative inline-flex w-[100px] h-[2.5rem] bg-blue-500 text-white px-2 py-1 overflow-hidden items-center justify-center">
+                <span className="relative inline-flex w-[80px] sm:w-[100px] h-10 bg-blue-500 text-white px-2 py-1 overflow-hidden items-center justify-center">
                   <TextRotate
-                    texts={[
-                      "simple",
-                      "fast",
-                      "stress-free",
-                      "reliable",
-                      "convenient",
-                    ]}
+                    texts={["simple", "fast", "stress-free", "reliable", "convenient"]}
                     mainClassName="inline-block"
                     staggerFrom="last"
                     initial={{ y: "100%" }}
@@ -52,26 +47,27 @@ export default function Hero() {
             </LayoutGroup>
 
             {/* CTA Button */}
-            <div className="mt-10 flex flex-wrap gap-5">
+            <div className="mt-8">
               <Link
                 href="/survey"
                 aria-label="get started button"
-                className="inline-flex items-center rounded-md bg-meta px-7.5 py-3 font-semibold text-white duration-300 hover:bg-black"
+                className="inline-block rounded-md bg-primary px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-primary-dark"
               >
                 Get Started Today
               </Link>
             </div>
           </div>
 
-          {/* Right Image/Graphic Column */}
-          <div className="md:w-1/2">
-            <div className="relative 2xl:-mr-7.5">
+          {/* Right Image Column */}
+          <div className="w-full lg:w-1/2 flex justify-center">
+            <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-xl">
               <div className="relative aspect-[700/444] w-full">
                 <Image
                   src="/images/hero/hero-light.svg"
-                  alt="Hero"
+                  alt="Hero illustration"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-contain"
                 />
               </div>
             </div>
