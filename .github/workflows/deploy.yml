@@ -1,4 +1,4 @@
-name: Dev Deploy to VPS
+name: Deploy Landing page app to VPS
 
 on:
   push:
@@ -23,6 +23,8 @@ jobs:
       # 3) Install Frontend Dependencies and Build
       - name: Install and Build Landing page
         working-directory: ./ # Assuming your frontend is in the root of the repo
+        run: |
+          npm run build
 
       # 4) SCP the built frontend to the VPS
       - name: Upload Built Frontend to VPS
