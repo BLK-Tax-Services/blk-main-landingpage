@@ -20,6 +20,15 @@ jobs:
         with:
           node-version: 'lts/*' # Or your preferred Node.js version
 
+      # Create .env file for build-time variables
+      - name: Create .env File for Build
+        run: |
+          echo "📝 Creating .env file for build..."
+          cat << EOF > .env
+          ${{ secrets.ENV_FILE_CONTENTS }}
+          EOF
+          cat .env  # Debug: Show the contents in the logs (be cautious with sensitive data)
+
       # 3) Install Frontend Dependencies and Build
       - name: Install and Build Landing page
         working-directory: ./ # Assuming your frontend is in the root of the repo
@@ -34,7 +43,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "./.next/,./package.json,./package-lock.json,./public/"
+          source: "./.next/,./package.json,./package-lock.json,./public/,./.env"
           target: "/home/blk/landing"
           overwrite: true
           port: 22  # Adjust if using non-standard SSH port
