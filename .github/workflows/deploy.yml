@@ -42,8 +42,8 @@ jobs:
             echo "✅ Connected via SSH to $(whoami)@$(hostname)"
 
             # Write the Git SSH key to a file
-            echo "${{ secrets.GIT_SSH_KEY }}" > ~/.ssh/github_deploy_key
-            chmod 600 ~/.ssh/github_deploy_key
+            echo "${{ secrets.GIT_SSH_KEY }}" > ~/.ssh/id_rsa_github_landing
+            chmod 600 ~/.ssh/id_rsa_github_landing
             # Set PATH for npm and pm2 (adjust as needed)
             export PATH=$PATH:/usr/local/bin:/home/blk/.nvm/versions/node/*/bin
             cd /home/blk
