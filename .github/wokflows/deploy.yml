@@ -83,5 +83,5 @@ jobs:
             echo "🚀 Restarting PM2 process..."
             pm2 restart all
 
-            echo "✅ Successfully Deployed backend app"
+            echo "✅ Successfully Deployed Landing page app"
 
