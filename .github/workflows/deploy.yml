@@ -6,7 +6,7 @@ on:
       - production  # Change this if needed
 
 jobs:
-  Landing Page Deployment:
+  landing-page-deployment:
     runs-on: ubuntu-latest
 
     steps:
