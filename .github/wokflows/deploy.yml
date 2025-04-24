@@ -46,8 +46,15 @@ jobs:
             chmod 600 ~/.ssh/github_deploy_key
             # Set PATH for npm and pm2 (adjust as needed)
             export PATH=$PATH:/usr/local/bin:/home/blk/.nvm/versions/node/*/bin
-            cd /home/blk/website
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key" git pull origin production
+            cd /home/blk
+
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa_github_landing" git clone git@github.com:BLK-Tax-Services/blk-main-landingpage.git landing
+
+            git checkout production
+                    
+            cd /home/blk/landing
+
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa_github_landing" git pull origin production
             
             # Fix PATH issue for non-interactive SSH sessions
             export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.npm-global/bin:$HOME/.nvm/versions/node/v22.12.0/bin
@@ -65,7 +72,7 @@ jobs:
               npm install -g pm2
             fi
 
-            cd /home/blk/website || { echo "❌ Directory not found! Exiting."; exit 1; }
+            cd /home/blk/landing || { echo "❌ Directory not found! Exiting."; exit 1; }
 
             # Install dependencies
             echo "📦 Installing dependencies..."
