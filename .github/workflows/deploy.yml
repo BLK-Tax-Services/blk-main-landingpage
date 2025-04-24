@@ -49,6 +49,35 @@ jobs:
           script: |
             echo "✅ Connected via SSH to $(whoami)@$(hostname)"
             export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.npm-global/bin:$HOME/.nvm/versions/node/v22.12.0/bin
-            echo "🚀 Restarting all PM2 process..."
+            
+            cd /home/blk/landing || { echo "❌ Directory not found! Exiting."; exit 1; }
+            
+            # Create the .env file
+            echo "📝 Creating .env file..."
+            cat << EOF > .env
+            ${{ secrets.ENV_FILE_CONTENTS }}
+            EOF
+            chmod 600 .env  # Restrict permissions for security
+            
+            # Verify Node.js and npm
+            echo "🔍 Checking Node.js and npm..."
+            which node || { echo "❌ Node.js not found in PATH. Exiting."; exit 1; }
+            which npm || { echo "❌ npm not found in PATH. Exiting."; exit 1; }
+            node -v || { echo "❌ Node.js not installed. Exiting."; exit 1; }
+            npm -v || { echo "❌ npm not installed. Exiting."; exit 1; }
+
+            # Ensure PM2 is installed
+            if ! command -v pm2 &> /dev/null; then
+              echo "⚠ PM2 not found! Installing..."
+              npm install -g pm2
+            fi
+
+            # Install dependencies on the VPS
+            echo "📦 Installing dependencies..."
+            npm ci || { echo "❌ npm ci failed! Exiting."; exit 1; }
+
+            # Restart or start the Next.js app
+            echo "🚀 Restarting PM2 process..."
             pm2 restart landing || pm2 start npm --name landing -- start
-            echo "✅ Successfully deployed the landing page app!"
+
+            echo "✅ Successfully Deployed Landing page app"
