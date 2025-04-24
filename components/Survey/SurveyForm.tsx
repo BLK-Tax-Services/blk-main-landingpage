@@ -68,8 +68,8 @@ const business_items = [
 
 const marriageOptions = ["Single", "Married", "Separated", "Divorced"];
 
-const documentKeyMapping = {
-  0: "employment_W2",
+const documentKeyMapping: Record<number, string> = {
+  0: "employment",
   1: "retirementDistribution",
   2: "socialSecuritySSA",
   3: "selfEmployment",
@@ -95,15 +95,11 @@ const SurveyForm = () => {
   const [userType, setUserType] = useState("");
   const [businessMethod, setBusinessMethod] = useState("");
   const [documentCounts, setDocumentCounts] = useState<Record<number, number>>({});
-  const [formData, setFormData] = useState<FormData>({
-    fullName: "",
-    email: "",
-    phone: "",
-  });
-  const [marriageStatus, setMarriageStatus] = useState("");
-  const [childrenCount, setChildrenCount] = useState(0);
+  const [formData, setFormData] = useState<FormData>({ fullName: "", email: "", phone: "" });
+  const [marriageStatus, setMarriageStatus] = useState<string>("");
+  const [childrenCount, setChildrenCount] = useState<number>(0);
   const [errors, setErrors] = useState<Errors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Initialize doc counts when userType changes
   useEffect(() => {
@@ -116,9 +112,7 @@ const SurveyForm = () => {
       setDocumentCounts(initialCounts);
     };
 
-    if (userType) {
-      initializeDocumentCounts();
-    }
+    if (userType) initializeDocumentCounts();
   }, [userType]);
 
   // Validation for each step
@@ -126,43 +120,27 @@ const SurveyForm = () => {
     const newErrors: Errors = {};
 
     // Step 1
-    if (currentStep === 1 && !userType) {
-      newErrors.userType = "Please select a user type.";
-    }
+    if (currentStep === 1 && !userType) newErrors.userType = "Please select a user type.";
 
     // Step 2
     if (currentStep === 2) {
       const totalDocuments = Object.values(documentCounts).reduce((acc, val) => acc + val, 0);
-      if (totalDocuments === 0) {
-        newErrors.documents = "Please select at least one document type.";
-      }
+      if (totalDocuments === 0) newErrors.documents = "Please select at least one document type.";
     }
 
     // Step 3
-    if (currentStep === 3 && !businessMethod) {
-      newErrors.businessMethod = "Please select a business method.";
-    }
+    if (currentStep === 3 && !businessMethod) newErrors.businessMethod = "Please select a business method.";
 
     // Step 4
-    if (currentStep === 4 && !marriageStatus) {
-      newErrors.marriageStatus = "Please select your marriage status.";
-    }
+    if (currentStep === 4 && !marriageStatus) newErrors.marriageStatus = "Please select your marriage status.";
 
     // Step 5
     if (currentStep === 5) {
-      if (!formData.fullName.trim()) {
-        newErrors.fullName = "Full name is required";
-      }
-      if (!formData.email.trim()) {
-        newErrors.email = "Email is required";
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        newErrors.email = "Email is invalid";
-      }
-      if (!formData.phone.trim()) {
-        newErrors.phone = "Phone number is required";
-      } else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ""))) {
-        newErrors.phone = "Phone number must be 10 digits";
-      }
+      if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
+      if (!formData.email.trim()) newErrors.email = "Email is required";
+      else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
+      if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+      else if (!/^\+?\d{10,15}$/.test(formData.phone)) newErrors.phone = "Phone number is invalid";
     }
 
     setErrors(newErrors);
@@ -170,41 +148,26 @@ const SurveyForm = () => {
   };
 
   // Step Navigation
-  const handleNextStep = async () => {
-    if (validateStep()) {
-      setCurrentStep((prev) => Math.min(prev + 1, 5));
-    } else {
-      toast.error("Please fix the errors before proceeding.");
-    }
+  const handleNextStep = () => {
+    if (validateStep()) setCurrentStep((prev) => Math.min(prev + 1, 6));
+    else toast.error("Please fix the errors before proceeding.");
   };
 
-  const handleBackStep = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
-  };
+  const handleBackStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
   // Increment/Decrement
   const handleIncrement = (index: number) => {
-    setDocumentCounts((prev) => ({
-      ...prev,
-      [index]: prev[index] + 1,
-    }));
+    setDocumentCounts((prev) => ({ ...prev, [index]: (prev[index] || 0) + 1 }));
     setErrors((prev) => ({ ...prev, documents: undefined }));
   };
-
   const handleDecrement = (index: number) => {
-    setDocumentCounts((prev) => ({
-      ...prev,
-      [index]: prev[index] > 0 ? prev[index] - 1 : 0,
-    }));
+    setDocumentCounts((prev) => ({ ...prev, [index]: Math.max((prev[index] || 0) - 1, 0) }));
   };
 
   // Input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
@@ -225,38 +188,40 @@ const SurveyForm = () => {
 
     setIsSubmitting(true);
 
+    // Build payload matching backend expectation:
     const data: Record<string, any> = {
       name: formData.fullName,
       email: formData.email,
       phone: formData.phone,
-      business_method: businessMethod,
-      marriage_status: marriageStatus,
+      employment: documentCounts[0] || 0,
+      married: marriageStatus === "Married",
       children: childrenCount,
     };
 
-    // Attach doc counts
+    // Attach remaining document counts
     Object.keys(documentKeyMapping).forEach((index) => {
-      const documentKey = documentKeyMapping[index as unknown as keyof typeof documentKeyMapping];
-      data[documentKey] = documentCounts[Number(index)] || 0;
+      const key = documentKeyMapping[Number(index)];
+      if (key !== "employment") {
+        data[key] = documentCounts[Number(index)] || 0;
+      }
     });
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/initialSurvey`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/initialSurvey`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.statusText}`);
-      }
+      if (!response.ok) throw new Error(`Server error: ${response.statusText}`);
 
       await response.json();
       toast.success("Form submitted successfully!");
 
-      // Reset
+      // Reset state
       setFormData({ fullName: "", email: "", phone: "" });
       setDocumentCounts({});
       setBusinessMethod("");
