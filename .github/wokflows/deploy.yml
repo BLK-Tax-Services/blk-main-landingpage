@@ -1,7 +1,7 @@
 name: Deploy Landing Page to VPS
 
-env:
-  HUSKY: 0
+#env:
+#  HUSKY: 0
 
 on:
   push:

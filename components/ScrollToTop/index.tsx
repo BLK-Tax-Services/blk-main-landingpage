@@ -1,44 +1,33 @@
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
+  const { theme } = useTheme();
 
-  // Top: 0 takes us all the way back to the top of the page
-  // Behavior: smooth keeps it smooth!
+  // Scroll smoothly to top
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
-    // Button is displayed after scrolling for 500 pixels
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.scrollY > 300);
     };
-
     window.addEventListener("scroll", toggleVisibility);
-
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
+  if (!isVisible) return null;
+
   return (
-    <div className="fixed bottom-8 right-8 z-[99]">
-      {isVisible && (
-        <div
-          onClick={scrollToTop}
-          aria-label="scroll to top"
-          className="hover:shadow-signUp flex h-10 w-10 cursor-pointer items-center justify-center rounded-sm bg-primary text-white shadow-md transition duration-300 ease-in-out hover:bg-opacity-80"
-        >
-          <span className="mt-[6px] h-3 w-3 rotate-45 border-l border-t border-white"></span>
-          <span className="sr-only">scroll to top</span>
-        </div>
-      )}
-    </div>
+    <button
+      onClick={scrollToTop}
+      aria-label="Scroll to top"
+      className="fixed bottom-8 right-8 z-[99] flex h-10 w-10 items-center justify-center rounded-sm bg-primary text-white shadow-md transition duration-300 ease-in-out hover:bg-opacity-80 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-opacity-90"
+    >
+      <span className="block h-3 w-3 rotate-45 border-l border-t border-white dark:border-gray-200"></span>
+      <span className="sr-only">Scroll to top</span>
+    </button>
   );
 }
