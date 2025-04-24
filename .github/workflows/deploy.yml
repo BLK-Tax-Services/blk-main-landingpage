@@ -42,22 +42,22 @@ jobs:
             echo "✅ Connected via SSH to $(whoami)@$(hostname)"
 
             # Write the Git SSH key to a file
-            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github_deploy_key
-            chmod 600 ~/.ssh/github_deploy_key
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github_deploy_key_landing
+            chmod 600 ~/.ssh/github_deploy_key_landing
             # Set PATH for npm and pm2 (adjust as needed)
             export PATH=$PATH:/usr/local/bin:/home/blk/.nvm/versions/node/*/bin
             cd /home/blk
 
             # Clone the repository if it doesn't exist
             if [ ! -d "landing" ]; then
-              GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key" git clone git@github.com:BLK-Tax-Services/blk-main-landingpage.git landing
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key_landing" git clone git@github.com:BLK-Tax-Services/blk-main-landingpage.git landing
             fi
             
             cd /home/blk/landing
             
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key" git checkout production
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key_landing" git checkout production
 
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key" git pull origin production
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key_landing" git pull origin production
             
             # Fix PATH issue for non-interactive SSH sessions
             export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.npm-global/bin:$HOME/.nvm/versions/node/v22.12.0/bin
