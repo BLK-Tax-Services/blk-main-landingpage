@@ -24,6 +24,7 @@ jobs:
       - name: Install and Build Landing page
         working-directory: ./ # Assuming your frontend is in the root of the repo
         run: |
+          npm ci
           npm run build
 
       # 4) SCP the built frontend to the VPS
