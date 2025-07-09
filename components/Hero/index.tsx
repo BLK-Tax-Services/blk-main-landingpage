@@ -51,7 +51,7 @@ export default function Hero() {
               <Link
                 href="/survey"
                 aria-label="get started button"
-                className="inline-block rounded-md bg-primary px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-primary-dark"
+                className="inline-block rounded-md bg-primary px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-primary-dark dark:text-black"
               >
                 Get Started Today
               </Link>
