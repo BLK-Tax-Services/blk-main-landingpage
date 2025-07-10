@@ -1,0 +1,92 @@
+name: Deploy Landing page app to VPS
+
+on:
+  push:
+    branches:
+      - production  # Change this if needed
+
+jobs:
+  landing-page-deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Check out the repo
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # 2) Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*' # Or your preferred Node.js version
+
+      # Create .env file for build-time variables
+      - name: Create .env File for Build
+        run: |
+          echo "📝 Creating .env file for build..."
+          cat << EOF > .env
+          ${{ secrets.ENV_FILE_CONTENTS }}
+          EOF
+          cat .env  # Debug: Show the contents in the logs (be cautious with sensitive data)
+
+      # 3) Install Frontend Dependencies and Build
+      - name: Install and Build Landing page
+        working-directory: ./ # Assuming your frontend is in the root of the repo
+        run: |
+          npm ci
+          npm run build
+
+      # 4) SCP the built frontend to the VPS
+      - name: Upload Built Frontend to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "./.next/,./package.json,./package-lock.json,./public/,./.env"
+          target: "/home/blk/landing"
+          overwrite: true
+          port: 22  # Adjust if using non-standard SSH port
+
+      # 5) SSH into VPS and Restart PM2
+      - name: Restart PM2 Services
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "✅ Connected via SSH to $(whoami)@$(hostname)"
+            export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.npm-global/bin:$HOME/.nvm/versions/node/v22.12.0/bin
+            
+            cd /home/blk/landing || { echo "❌ Directory not found! Exiting."; exit 1; }
+            
+            # Create the .env file
+            echo "📝 Creating .env file..."
+            cat << EOF > .env
+            ${{ secrets.ENV_FILE_CONTENTS }}
+            EOF
+            chmod 600 .env  # Restrict permissions for security
+            
+            # Verify Node.js and npm
+            echo "🔍 Checking Node.js and npm..."
+            which node || { echo "❌ Node.js not found in PATH. Exiting."; exit 1; }
+            which npm || { echo "❌ npm not found in PATH. Exiting."; exit 1; }
+            node -v || { echo "❌ Node.js not installed. Exiting."; exit 1; }
+            npm -v || { echo "❌ npm not installed. Exiting."; exit 1; }
+
+            # Ensure PM2 is installed
+            if ! command -v pm2 &> /dev/null; then
+              echo "⚠ PM2 not found! Installing..."
+              npm install -g pm2
+            fi
+
+            # Install dependencies on the VPS
+            echo "📦 Installing dependencies..."
+            npm ci || { echo "❌ npm ci failed! Exiting."; exit 1; }
+
+            # Restart or start the Next.js app
+            echo "🚀 Restarting PM2 process..."
+            pm2 restart landing || pm2 start npm --name landing -- start
+
+            echo "✅ Successfully Deployed Landing page app"
