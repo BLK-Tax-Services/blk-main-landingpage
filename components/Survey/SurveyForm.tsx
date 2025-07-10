@@ -445,7 +445,7 @@ const SurveyForm = () => {
                           <button
                             type="button"
                             onClick={() => handleIncrement(index)}
-                            className="rounded-br rounded-tr border  px-2 text-white shadow  dark:border-strokedark dark:bg-strokedark"
+                            className="rounded-br rounded-tr border  px-2 text-white shadow bg-blue-700 border-strokedark dark:border-strokedark dark:bg-strokedark"
                           >
                             +
                           </button>
