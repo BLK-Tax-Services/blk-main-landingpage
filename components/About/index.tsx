@@ -34,11 +34,7 @@ const About = () => {
                 Personal Tax Preparation
               </h2>
               <p className="font-boldnose">
-                Whatever tax needs you have, our tax professionals will get the
-                job done at the highest quality, most affordable price. Get
-                expert help with your personal tax preparation maximize your
-                deductions, minimize your stress, and ensure your taxes are done
-                right
+                Our Personal Tax Team offers fast, secure, expert support for each client. See our list of services to see which one is right for you. Refer us to your community for additional cash back this tax season
               </p>
               <div>
                 <a
@@ -85,10 +81,10 @@ const About = () => {
                 </div>
                 <div className="w-3/4 ">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Initial Consultation
+                    Tax Strategy Session
                   </h3>
                   <p>
-                    Book this service to start your tax preparation process!
+                    Select this service to meet with our team about your tax plan.
                   </p>
                 </div>
               </div>
@@ -100,11 +96,10 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Standard Tax Return
+                    BLK Standard Return
                   </h3>
                   <p>
-                    For filers with W-2, capital gains, interest and/or dividend
-                    income.
+                    Select this service if you have W2 income, capital gains, interest, or dividend income
                   </p>
                 </div>
               </div>
@@ -116,9 +111,9 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Itemized Tax Retrun
+                    BLK Standard+ Tax Return
                   </h3>
-                  <p>For filers not taking the standard deduction.</p>
+                  <p>Select this service if you own a home, are married, or have dependents in addition to Standard items</p>
                 </div>
               </div>
               <div className="mt-7.5 flex items-center gap-5">
@@ -129,9 +124,9 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Single-Member LLC Tax Return
+                    Business Owner Tax Return
                   </h3>
-                  <p>For filers who operate their own business.</p>
+                  <p>Select this service if you own a business in addition to Standard items</p>
                 </div>
               </div>
             </motion.div>
@@ -196,10 +191,7 @@ const About = () => {
                 </span>
               </h2>
               <p>
-                Filing taxes can be overwhelming, but we're here to make it
-                simple and stress-free for you. Whether it's maximizing
-                deductions or ensuring every detail is correct, we walk with you
-                every step of the way.
+                We’re here to file your taxes securely online and on time with one of our IRS certified experts. Your personal information will be encrypted & sent to our trusted team to process your documents. Then, we’ll verify your identity and file your taxes for the year. Use your BLK Portal to track the status of your return or contact us directly.
               </p>
 
               <div className="mt-7.5 flex items-center gap-5">
@@ -210,9 +202,9 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Fill our survey
+                    Start your Tax Return
                   </h3>
-                  <p>Fill up a small survey that helps us send you a quote.</p>
+                  <p>Complete a 10 second survey and give us your email to receive your secure quote.</p>
                 </div>
               </div>
               <div className="mt-7.5 flex items-center gap-5">
@@ -223,10 +215,10 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Recieve a quote
+                    Receive your Personalized Price
                   </h3>
                   <p>
-                    Recieve a quote within 24 hours through your email.
+                    Prices start @ $99 and are based on your required tax forms
                   </p>
                 </div>
               </div>
@@ -238,10 +230,10 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Upload your tax documents
+                    Safely Send your Documents
                   </h3>
                   <p>
-                    Upload your tax documents in your client portal.
+                    Securely store your other forms and information on the BLK Portal
                   </p>
                 </div>
               </div>
@@ -253,11 +245,10 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Relax,We've Got It Covered
+                    Review your Return Status
                   </h3>
                   <p>
-                    Our experts will handle the rest,ensuring accurate and
-                    timely filling.
+                    Wait for your filing notification and  reach out to us with any questions
                   </p>
                 </div>
               </div>

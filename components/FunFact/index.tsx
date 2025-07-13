@@ -9,7 +9,7 @@ export default function FunFact() {
         {/* Heading & Subheading */}
         <div className="relative z-10 mx-auto max-w-xl space-y-6 text-center">
           <h2 className="text-4xl font-bold text-black dark:text-white lg:text-5xl">
-            Trusted by Business Partners
+            Trusted by our Clients and Business Partners
           </h2>
           <p className="text-gray-700 dark:text-gray-300">
             At BLK Tax Services, we empower businesses with streamlined, digital tax
@@ -30,9 +30,9 @@ export default function FunFact() {
             className="group rounded-lg border border-gray-200 bg-white/70 p-8 text-center shadow-lg backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10"
           >
             <div className="text-5xl font-bold text-black transition-colors duration-300 group-hover:text-blue-500 dark:text-white">
-              500
+              25
             </div>
-            <p className="mt-2 text-gray-700 dark:text-gray-300">Business Partners</p>
+            <p className="mt-2 text-gray-700 dark:text-gray-300">Businesses Served</p>
           </motion.div>
 
           {/* Card 2 */}
@@ -44,9 +44,9 @@ export default function FunFact() {
             className="group rounded-lg border border-gray-200 bg-white/70 p-8 text-center shadow-lg backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10"
           >
             <div className="text-5xl font-bold text-black transition-colors duration-300 group-hover:text-blue-500 dark:text-white">
-              890
+              15+ Yrs
             </div>
-            <p className="mt-2 text-gray-700 dark:text-gray-300">Cases Solved</p>
+            <p className="mt-2 text-gray-700 dark:text-gray-300">Experience in Tax Industry</p>
           </motion.div>
 
           {/* Card 3 */}
@@ -57,10 +57,10 @@ export default function FunFact() {
             viewport={{ once: true }}
             className="group rounded-lg border border-gray-200 bg-white/70 p-8 text-center shadow-lg backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10"
           >
-            <div className="text-5xl font-bold text-black transition-colors duration-300 group-hover:text-blue-500 dark:text-white">
-              5
+            <div className="text-5xl font-bold text-black transition-colors duration-300 group-hover:text-blue-500 dark:text-green-500">
+              $5M+
             </div>
-            <p className="mt-2 text-gray-700 dark:text-gray-300">Years Experience</p>
+            <p className="mt-2 text-gray-700 dark:text-gray-300">Refunded to our Clients</p>
           </motion.div>
         </div>
       </div>
