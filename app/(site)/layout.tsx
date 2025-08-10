@@ -29,7 +29,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Boldonse */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -48,7 +47,8 @@ export default function RootLayout({
       </head>
       <body
         className={`boldonse font-roboto bg-white  ${
-          landingHidden ? "" : "dark:bg-[#151A21]"
+          // landingHidden ? "" : "dark:bg-[#151A21]"
+          landingHidden ? "bg-black dark:bg-[#000000]" : "dark:bg-[#151A21]"
         }`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -56,13 +56,15 @@ export default function RootLayout({
             <div className={`flex h-screen items-center justify-center`}>
               <div className="flex-col justify-items-center">
                 <img
-                  src={`/images/construction.svg`}
-                  className={`h-66 mx-auto`}
+                  src={`/images/coming_soon_2.svg`}
+                  className={`h-96 mx-auto px-2`}
                   alt={`construction image`}
                   onDoubleClick={() => showPrompt()}
                 />
-                <p className={`mx-auto mt-2 text-5xl text-black`}>Coming Soon</p>
-                <p className={`mx-auto text-xl`}>Site Under Construction</p>
+                {/*<p className={`mx-auto mt-2 text-5xl text-black`}>Coming Soon</p>*/}
+                <p className={`mx-auto text-4xl text-center text-gray-300 px-2`}>
+                  See You In The Next Tax Season
+                </p>
               </div>
             </div>
           ) : (
