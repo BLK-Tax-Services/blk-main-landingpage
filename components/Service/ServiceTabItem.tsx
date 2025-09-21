@@ -1,7 +1,9 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
+// Define the types for the props
 interface CardItem {
   id: string;
   title: string;
@@ -16,65 +18,29 @@ interface ServiceTabType {
 }
 
 const ServiceTabItem = ({ serviceTab }: { serviceTab: ServiceTabType }) => {
-  // The creative gradient style
-  const creativeGradient = {
-    background: "linear-gradient(125deg, #0a74da 0%, #000000 60%, #ffffff 100%)",
-  };
-
   return (
-    <div
-      id="cards-container"
-      className="grid grid-cols-1 gap-10 py-10 text-center sm:grid-cols-2 lg:grid-cols-3 justify-items-center"
-    >
-      {serviceTab.items.map((card) => (
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {serviceTab.items.map((card, index) => (
         <motion.div
           key={card.id}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="group relative w-full max-w-sm overflow-hidden rounded-3xl border border-gray-200 bg-white bg-opacity-90 shadow-2xl backdrop-blur-md transition-transform duration-500 ease-in-out hover:scale-105 hover:shadow-[0_8px_30px_rgba(0,0,0,0.15)] dark:bg-blacksection dark:border-white/10"
+          transition={{ duration: 0.5, delay: index * 0.1 }}
+          className="flex h-full flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1 dark:border-gray-800 dark:bg-blacksection"
         >
-          {/* Skewed Gradient Header */}
-          <div
-            className="relative z-10 flex items-center justify-center px-5 py-6 transform -skew-y-3"
-            style={creativeGradient}
-          >
-            <h3 className="text-xl font-boldnose font-extrabold text-white uppercase tracking-wider">
-              {card.title}
-            </h3>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{card.title}</h3>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">{card.description}</p>
           </div>
-
-          {/* Decorative Divider */}
-          <div className="mx-auto -mt-1 mb-3 h-1 w-2/3 rounded-full bg-primary/80 dark:bg-primary/60" />
-
-          {/* Creative Overlay for Depth */}
-          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-white/70 to-transparent dark:from-black/70 dark:to-transparent" />
-
-          {/* Card Content */}
-          <div className="relative z-20 px-6 py-6">
-            <p className="mb-4 text-base text-gray-800 dark:text-gray-200">
-              {card.description}
-            </p>
-            <div className="mb-6 text-lg font-boldnose text-gray-600 dark:text-gray-400">
-              {card.price}
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full rounded-md px-6 py-3 text-base font-semibold text-white transition-colors duration-300 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 dark:from-blue-500 dark:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-800"
+          <div className="mt-6 flex items-baseline justify-between">
+            <span className="text-2xl font-bold text-gray-900 dark:text-white">{card.price}</span>
+            <Link
+              href="/survey"
+              className="rounded-md bg-blue-600/10 px-4 py-2 text-sm font-semibold text-blue-600 transition-colors hover:bg-blue-600/20 dark:text-blue-400 dark:bg-blue-600/20 dark:hover:bg-blue-600/30"
             >
               Fill Survey
-            </motion.button>
+            </Link>
           </div>
-
-          {/* Animated Decorative Border on Hover */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="pointer-events-none absolute inset-0 rounded-3xl border-4 border-transparent"
-            style={creativeGradient}
-          />
         </motion.div>
       ))}
     </div>

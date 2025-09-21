@@ -2,7 +2,7 @@
 import { Metadata } from "next";
 import AboutComponents from "@/components/AboutComponent/Index";
 import FAQ from "@/components/FAQ";
-import CTA from "@/components/CTA";
+// import CTA from "@/components/CTA";
 import Team from "../../../components/Team/index";
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ const AboutPage = async () => {
 
      <AboutComponents/>
      <Team />
-      <CTA />
+      {/* <CTA /> */}
       <FAQ/>
     </>
   );
