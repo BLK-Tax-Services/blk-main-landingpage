@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import Brands from "@/components/Brands";
 import About from "@/components/About";
 import FunFact from "@/components/FunFact";
-import CTA from "@/components/CTA";
+// import CTA from "@/components/CTA";
 import FAQ from "@/components/FAQ";
 import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
@@ -74,7 +74,7 @@ export default function Home() {
       <Pricing />
       <Blog />
       <Contact />
-      <CTA />
+      {/* <CTA /> */}
       <FAQ />
     </main>
   );

@@ -1,8 +1,6 @@
-// /components/Service/serviceTabData.ts
-
 const serviceTabData = [
   {
-    id: "tabOne",
+    id: "personal", // Changed from tabOne
     title: "Personal Tax Preparation",
     items: [
       {
@@ -26,7 +24,7 @@ const serviceTabData = [
     ],
   },
   {
-    id: "tabTwo",
+    id: "planning", // Changed from tabTwo
     title: "Tax Planning & Analysis",
     items: [
       {
@@ -50,7 +48,7 @@ const serviceTabData = [
     ],
   },
   {
-    id: "tabThree",
+    id: "business", // Changed from tabThree
     title: "Business Tax Services",
     items: [
       {
