@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lottiefiles/lottie-player": "^2.0.12",
     "@next/font": "^14.2.15",
     "@next/mdx": "^15.2.2",
     "@types/bcrypt": "^5.0.1",
@@ -22,7 +23,6 @@
     "eslint-config-next": "13.4.4",
     "framer-motion": "^10.18.0",
     "gray-matter": "^4.0.3",
-    "lottie-react": "^2.4.1",
     "lucide-react": "^0.485.0",
     "motion": "^12.6.2",
     "next": "^13.5.6",
