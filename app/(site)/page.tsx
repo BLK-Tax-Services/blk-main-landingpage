@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Hero from "@/components/Hero";
-import Brands from "@/components/Brands";
 import About from "@/components/About";
 import FunFact from "@/components/FunFact";
 // import CTA from "@/components/CTA";
@@ -67,7 +66,6 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <Brands />
       <About />
       <FunFact />
       <Testimonial />

@@ -2,7 +2,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Twitter, Linkedin } from "lucide-react";
+// Updated lucide-react imports
+import { Instagram, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -33,7 +34,7 @@ const Footer = () => {
               />
             </Link>
             <p className="max-w-xs text-gray-600 dark:text-gray-400">
-              Virtual tax preparation designed to heavy lift and maximize your returns!
+              Maximize your returns from the comfort of your office or couch!
             </p>
           </motion.div>
 
@@ -86,7 +87,7 @@ const Footer = () => {
                 />
                 <button
                   aria-label="subscribe"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md bg-primary p-2 text-white transition-colors hover:bg-primary/90"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md bg-primary p-2 dark:bg-white dark:text-black text-white transition-colors hover:bg-primary/90"
                 >
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.1175 1.17318L18.5025 9.63484C18.7182 9.74284 18.7182 10.2572 18.5025 10.3652L3.1175 18.8268C2.90933 18.9398 2.6425 18.7744 2.68583 18.5385L4.16667 10.8333H8.33333V9.16667H4.16667L2.68583 1.46151C2.6425 1.22562 2.90933 1.06021 3.1175 1.17318Z" fill="currentColor"/></svg>
                 </button>
@@ -101,9 +102,26 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} BLK. All rights reserved
           </p>
           <div className="flex items-center space-x-4">
-            <a href="#" aria-label="Facebook" className="text-gray-400 transition-colors hover:text-primary"><Facebook /></a>
-            <a href="#" aria-label="Twitter" className="text-gray-400 transition-colors hover:text-primary"><Twitter /></a>
-            <a href="#" aria-label="LinkedIn" className="text-gray-400 transition-colors hover:text-primary"><Linkedin /></a>
+            {/* Updated Instagram Link and Icon */}
+            <a 
+              href="https://www.instagram.com/blktax/?hl=en" 
+              aria-label="Instagram" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-400 transition-colors hover:text-primary"
+            >
+              <Instagram />
+            </a>
+            {/* Updated LinkedIn Link */}
+            <a 
+              href="https://www.linkedin.com/company/blk-tax" 
+              aria-label="LinkedIn" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-400 transition-colors hover:text-primary"
+            >
+              <Linkedin />
+            </a>
           </div>
         </div>
       </div>
