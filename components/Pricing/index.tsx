@@ -61,10 +61,15 @@ const PricingCard = ({ plan, billingCycle }) => {
             )}
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{plan.name}</h3>
             <p className="mt-2 text-gray-500 dark:text-gray-400">{plan.description}</p>
-            <div className="mt-6 flex items-baseline gap-x-2">
-                <span className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">${price}</span>
-                <span className="text-gray-500 dark:text-gray-400">{cycleText}</span>
+            
+            <div className="mt-6">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Starting at</p>
+                <div className="mt-1 flex items-baseline gap-x-1">
+                    <span className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">${price}</span>
+                    <span className="text-gray-500 dark:text-gray-400">{cycleText}</span>
+                </div>
             </div>
+
             <ul className="mt-8 flex-1 space-y-3 text-gray-600 dark:text-gray-300">
                 {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-center gap-x-3">

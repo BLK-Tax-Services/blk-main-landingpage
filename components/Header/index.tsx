@@ -93,7 +93,7 @@ const Header = () => {
               href="/survey"
               className="rounded-md bg-blue-600 px-5 py-2.5 text-white whitespace-nowrap hover:bg-blue-700 transition-colors"
             >
-              Fill Our Survey
+              Client Survey
             </Link>
           )}
           <button
@@ -147,7 +147,7 @@ const Header = () => {
                     onClick={toggleNavigation}
                     className="block rounded-md bg-blue-600 px-4 py-2 text-center text-white"
                   >
-                    Fill Our Survey
+                    Client Survey
                   </Link>
                 </li>
               )}
