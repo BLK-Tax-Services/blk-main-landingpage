@@ -70,6 +70,15 @@ jobs:
             
             # Verify Node.js and npm
             echo "🔍 Checking Node.js and npm..."
+            # Load NVM and Node
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+            
+            # Use the installed Node version
+            nvm use 22
+
+          
             which node || { echo "❌ Node.js not found in PATH. Exiting."; exit 1; }
             which npm || { echo "❌ npm not found in PATH. Exiting."; exit 1; }
             node -v || { echo "❌ Node.js not installed. Exiting."; exit 1; }
