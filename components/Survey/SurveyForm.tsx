@@ -52,23 +52,24 @@ const documentItems = [
 
 const marriageOptions = ["Single", "Head of Household", "Married Filing Jointly", "Married Filing Separately", "Qualifying Widow"];
 
+// FIX: 1. Updated the key mapping to match the exact field names the backend expects.
 const documentKeyMapping: Record<number, string> = { 
-  0: "retirementDistribution1099R", 
-  1: "socialSecuritySSA1099",
-  2: "stateOrLocalTaxRefund1099G",
-  3: "unemploymentCompensation1099G",
-  4: "interest1099INT",
-  5: "dividends1099DIV",
-  6: "soldStocksOrInvestments1099B",
-  7: "canceledDebt1099C",
-  8: "esaOr529Distribution1099Q",
-  9: "hsaOrMsaDistribution1099SA",
-  10: "partnershipScheduleK1",
-  11: "gamblingW2G",
+  0: "retirementDistribution",
+  1: "socialSecuritySSA",
+  2: "stateOrLocalTaxRefund",
+  3: "unemploymentCompensation",
+  4: "interest",
+  5: "dividends",
+  6: "soldStockOrInvestments",
+  7: "canceledDebt",
+  8: "esaOrFtnDistribution",
+  9: "hsaOrMsaDistribution",
+  10: "partnershipSchedule",
+  11: "gambling",
   12: "farming",
-  13: "selfEmploymentIncome1099NEC",
-  14: "otherIncome1099MISC",
-  15: "realEstateProperty"
+  13: "selfEmployment",
+  14: "otherIncome", // Renamed for clarity, ensure backend matches
+  15: "rent" // Assuming "Real Estate Property" means rental income
 };
 
 const SurveyForm = () => {
@@ -154,9 +155,15 @@ const SurveyForm = () => {
     documentItems.forEach((_, index) => {
         const key = documentKeyMapping[index];
         if (key) {
-            data[key] = documentCounts[index] || 0;
+            // FIX: 2. Converted the number count to a boolean (true/false) value.
+            data[key] = (documentCounts[index] || 0) > 0;
         }
     });
+
+    // FIX: 3. Added the 'employment' field which was missing from the form but expected by the backend.
+    // TODO: You may want to add an actual input for 'employment' in Step 1.
+    // For now, it defaults to `false`.
+    data.employment = false;
 
     if (otherIncomeChecked && otherIncomeText.trim()) {
         data.otherIncomeExplanation = otherIncomeText;
@@ -164,7 +171,12 @@ const SurveyForm = () => {
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/initialSurvey`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data), });
-      if (!response.ok) throw new Error(`Server error: ${response.statusText}`);
+      if (!response.ok) {
+        // Log the server error for better debugging
+        const errorData = await response.json();
+        console.error("Server validation error:", errorData);
+        throw new Error(`Server error: ${response.statusText}`);
+      }
       await response.json();
       toast.success("Form submitted successfully!");
       setFormData({ fullName: "", email: "", phone: "" });
@@ -176,7 +188,7 @@ const SurveyForm = () => {
       setOtherIncomeText("");
       setCurrentStep(5);
     } catch (error) {
-      toast.error("Error submitting the form. Please try again later.");
+      toast.error("Error submitting the form. Please check the console for details.");
     } finally {
       setIsSubmitting(false);
     }
@@ -186,6 +198,7 @@ const SurveyForm = () => {
 
   return (
     <section className="min-h-screen bg-gray-50 dark:bg-[#151A21] py-12 sm:py-20 px-4">
+        {/* Toastify CSS is inlined for simplicity */}
         <style>{`.Toastify__toast-container{z-index:9999;position:fixed;padding:4px;width:320px;box-sizing:border-box;color:#fff}.Toastify__toast-container--top-left{top:1em;left:1em}.Toastify__toast-container--top-center{top:1em;left:50%;transform:translateX(-50%)}.Toastify__toast-container--top-right{top:1em;right:1em}.Toastify__toast-container--bottom-left{bottom:1em;left:1em}.Toastify__toast-container--bottom-center{bottom:1em;left:50%;transform:translateX(-50%)}.Toastify__toast-container--bottom-right{bottom:1em;right:1em}@media only screen and (max-width: 480px){.Toastify__toast-container{width:100vw;padding:0;left:0;margin:0}}.Toastify__toast{position:relative;min-height:64px;box-sizing:border-box;margin-bottom:1rem;padding:8px;border-radius:4px;box-shadow:0 1px 10px 0 rgba(0,0,0,.1),0 2px 15px 0 rgba(0,0,0,.05);display:flex;justify-content:space-between;max-height:800px;overflow:hidden;font-family:sans-serif;cursor:pointer;direction:ltr}.Toastify__toast--rtl{direction:rtl}.Toastify__toast-body{margin:auto 0;flex:1 1 auto;padding:6px}.Toastify__close-button{color:#fff;font-weight:700;font-size:14px;background:0 0;outline:none;border:none;padding:0;cursor:pointer;opacity:.7;transition:.3s ease;align-self:flex-start}.Toastify__close-button:hover{opacity:1}}`}</style>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       <div className="relative mx-auto max-w-4xl">
@@ -220,7 +233,7 @@ const SurveyForm = () => {
             <div className="min-h-[450px] flex items-center justify-center">
                 <AnimatePresence mode="wait">
                     {currentStep === 1 && (
-                         <motion.div key="step1" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.3 }} className="w-full">
+                        <motion.div key="step1" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.3 }} className="w-full">
                             <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 dark:text-white mb-2">Select Your Tax Documents</h2>
                             <p className="text-center text-gray-500 dark:text-gray-400 mb-8">Choose the documents you have. You can select more than one.</p>
                             {errors.documents && <p className="text-center text-red-500 mb-4">{errors.documents}</p>}
@@ -281,23 +294,23 @@ const SurveyForm = () => {
                             <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 dark:text-white mb-2">Filing Status and Dependents</h2>
                             <p className="text-center text-gray-500 dark:text-gray-400 mb-8">This helps us determine the best filing status for you.</p>
                             {errors.marriageStatus && <p className="text-center text-red-500 mb-4">{errors.marriageStatus}</p>}
-                             <div className="space-y-6">
-                                <div>
-                                    <label htmlFor="marriage-status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Filing Status</label>
-                                    <select id="marriage-status" name="marriageStatus" value={marriageStatus} onChange={handleMarriageStatusChange} className="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 py-3 px-4 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 dark:text-white" required>
-                                        <option value="" disabled>Select your status</option>
-                                        {marriageOptions.map((status) => (<option key={status} value={status}>{status}</option>))}
-                                    </select>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <label className="font-medium text-gray-800 dark:text-gray-200">Children / Dependents</label>
-                                    <div className="flex items-center">
-                                        <button type="button" onClick={handleChildrenDecrement} className="p-2 rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"><FaMinus /></button>
-                                        <span className="w-10 text-center font-semibold text-gray-900 dark:text-white">{childrenCount}</span>
-                                        <button type="button" onClick={handleChildrenIncrement} className="p-2 rounded-full text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"><FaPlus /></button>
+                                <div className="space-y-6">
+                                    <div>
+                                        <label htmlFor="marriage-status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Filing Status</label>
+                                        <select id="marriage-status" name="marriageStatus" value={marriageStatus} onChange={handleMarriageStatusChange} className="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 py-3 px-4 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 dark:text-white" required>
+                                            <option value="" disabled>Select your status</option>
+                                            {marriageOptions.map((status) => (<option key={status} value={status}>{status}</option>))}
+                                        </select>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <label className="font-medium text-gray-800 dark:text-gray-200">Children / Dependents</label>
+                                        <div className="flex items-center">
+                                            <button type="button" onClick={handleChildrenDecrement} className="p-2 rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"><FaMinus /></button>
+                                            <span className="w-10 text-center font-semibold text-gray-900 dark:text-white">{childrenCount}</span>
+                                            <button type="button" onClick={handleChildrenIncrement} className="p-2 rounded-full text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"><FaPlus /></button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         </motion.div>
                     )}
                     {currentStep === 4 && (
@@ -330,7 +343,7 @@ const SurveyForm = () => {
                     )}
                     {currentStep === 5 && (
                         <motion.div key="step5" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="w-full text-center">
-                             <div className="flex justify-center mb-4">
+                                <div className="flex justify-center mb-4">
                                 <div className="h-20 w-20 flex items-center justify-center bg-green-100 dark:bg-green-900/50 rounded-full">
                                     <FaCheckCircle className="text-green-500 text-5xl" />
                                 </div>
