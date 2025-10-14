@@ -186,11 +186,12 @@ const SurveyForm = () => {
     documentItems.forEach((_, index) => {
         const key = documentKeyMapping[index];
         if (key) {
-            data[key] = (documentCounts[index] || 0) > 0;
+            // data[key] = (documentCounts[index] || 0) > 0;
+            data[key] = (documentCounts[index] || 0) > 0 ? 1 : 0;
         }
     });
 
-    data.employment = false;
+    data.employment = 0;
 
     if (otherIncomeChecked && otherIncomeText.trim()) {
         data.otherIncomeExplanation = otherIncomeText;
