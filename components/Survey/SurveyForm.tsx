@@ -52,7 +52,6 @@ const documentItems = [
 
 const marriageOptions = ["Single", "Head of Household", "Married Filing Jointly", "Married Filing Separately", "Qualifying Widow"];
 
-// FIX: 1. Updated the key mapping to match the exact field names the backend expects.
 const documentKeyMapping: Record<number, string> = { 
   0: "retirementDistribution",
   1: "socialSecuritySSA",
@@ -68,8 +67,8 @@ const documentKeyMapping: Record<number, string> = {
   11: "gambling",
   12: "farming",
   13: "selfEmployment",
-  14: "otherIncome", // Renamed for clarity, ensure backend matches
-  15: "rent" // Assuming "Real Estate Property" means rental income
+  14: "otherIncome",
+  15: "rent"
 };
 
 const SurveyForm = () => {
@@ -102,8 +101,13 @@ const SurveyForm = () => {
       if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
       if (!formData.email.trim()) newErrors.email = "Email is required";
       else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
-      if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
-      else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) newErrors.phone = "Please enter a valid 10-digit phone number";
+      
+      const phoneDigits = formData.phone.replace(/\D/g, '');
+      if (!phoneDigits) {
+        newErrors.phone = "Phone number is required";
+      } else if (phoneDigits.length !== 10) {
+        newErrors.phone = "Please enter a valid 10-digit phone number";
+      }
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -118,6 +122,29 @@ const SurveyForm = () => {
   const handleIncrement = (index: number) => { setDocumentCounts((prev) => ({ ...prev, [index]: (prev[index] || 0) + 1 })); setErrors((prev) => ({ ...prev, documents: undefined })); };
   const handleDecrement = (index: number) => { setDocumentCounts((prev) => ({ ...prev, [index]: Math.max((prev[index] || 0) - 1, 0) })); };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => { const { name, value } = e.target; setFormData((prev) => ({ ...prev, [name]: value })); setErrors((prev) => ({ ...prev, [name]: undefined })); };
+  
+  // FIX 2: This new handler will auto-format the phone number as the user types.
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value.replace(/\D/g, '').substring(0, 10); // Get only digits, max 10
+    const phoneNumberLength = input.length;
+    let formattedPhoneNumber = "";
+
+    if (phoneNumberLength > 0) {
+      formattedPhoneNumber = `(${input.substring(0, 3)}`;
+    }
+    if (phoneNumberLength > 3) {
+      formattedPhoneNumber += `) ${input.substring(3, 6)}`;
+    }
+    if (phoneNumberLength > 6) {
+      formattedPhoneNumber += `-${input.substring(6, 10)}`;
+    }
+
+    setFormData(prev => ({ ...prev, phone: formattedPhoneNumber }));
+
+    if (phoneNumberLength === 10) {
+        setErrors(prev => ({ ...prev, phone: undefined }));
+    }
+  };
   
   const handleMarriageStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newStatus = e.target.value;
@@ -137,16 +164,20 @@ const SurveyForm = () => {
   };
   
   const handleChildrenIncrement = () => {
-      setChildrenCount(childrenCount + 1);
+    setChildrenCount(childrenCount + 1);
   };
 
   const handleSubmit = async () => {
     if (!validateStep()) { toast.error("Please fix the errors in your personal information."); return; }
     setIsSubmitting(true);
+    
+    // FIX 3: Clean the phone number before sending it to the backend.
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    
     const data: Record<string, any> = { 
         name: formData.fullName, 
         email: formData.email, 
-        phone: `+1${formData.phone}`, 
+        phone: `+1${phoneDigits}`, 
         filingStatus: marriageStatus,
         married: marriageStatus.startsWith("Married"), 
         children: childrenCount, 
@@ -155,14 +186,10 @@ const SurveyForm = () => {
     documentItems.forEach((_, index) => {
         const key = documentKeyMapping[index];
         if (key) {
-            // FIX: 2. Converted the number count to a boolean (true/false) value.
             data[key] = (documentCounts[index] || 0) > 0;
         }
     });
 
-    // FIX: 3. Added the 'employment' field which was missing from the form but expected by the backend.
-    // TODO: You may want to add an actual input for 'employment' in Step 1.
-    // For now, it defaults to `false`.
     data.employment = false;
 
     if (otherIncomeChecked && otherIncomeText.trim()) {
@@ -172,7 +199,6 @@ const SurveyForm = () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/initialSurvey`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data), });
       if (!response.ok) {
-        // Log the server error for better debugging
         const errorData = await response.json();
         console.error("Server validation error:", errorData);
         throw new Error(`Server error: ${response.statusText}`);
@@ -326,13 +352,14 @@ const SurveyForm = () => {
                                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                             <span className="text-gray-500 dark:text-gray-400 sm:text-sm">+1</span>
                                         </div>
+                                        {/* FIX 4: Connect the phone input to its specific handler and use the formatted value */}
                                         <input
                                             id="phone"
                                             name="phone"
                                             type="tel"
                                             placeholder="(555) 123-4567"
                                             value={formData.phone}
-                                            onChange={handleChange}
+                                            onChange={handlePhoneChange}
                                             className={`block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 py-3 pl-8 pr-4 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 dark:text-white ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
                                         />
                                     </div>
@@ -399,3 +426,4 @@ const InputField = ({ id, name, label, error, ...props }) => (
 );
 
 export default SurveyForm;
+
