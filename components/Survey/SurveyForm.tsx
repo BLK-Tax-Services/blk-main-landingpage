@@ -47,7 +47,10 @@ const documentItems = [
     "Farming",
     "Self Employment Income (1099-NEC)",
     "Other Income (1099-MISC)",
-    "Real Estate Property"
+    "Real Estate Property",
+    "Royalties",
+    "S Corporation (Schedule K-1)",
+    "Estate or Trust (Schedule K-1)"
 ];
 
 const marriageOptions = ["Single", "Head of Household", "Married Filing Jointly", "Married Filing Separately", "Qualifying Widow"];
@@ -68,7 +71,10 @@ const documentKeyMapping: Record<number, string> = {
     12: "farming",
     13: "selfEmployment",
     14: "otherIncome",
-    15: "rent"
+    15: "rent",
+    16: "royalties",
+    17: "sCorporationSchedule",
+    18: "estateOrTrustSchedule"
 };
 
 const SurveyForm = () => {
@@ -193,12 +199,12 @@ const SurveyForm = () => {
             "sCorporationSchedule", "estateOrTrustSchedule", "gambling", "farming"
         ];
 
-        // STEP 2: Set the value to 1 for documents the user has selected.
+        // STEP 2: Set the value using actual document counts.
         documentItems.forEach((_, index) => {
             const key = documentKeyMapping[index];
             if (key) {
-                // This will set the value to 1 if count > 0, otherwise 0
-                data[key] = (documentCounts[index] || 0) > 0 ? 1 : 0;
+                // Use the actual count (0, 1, 2, 3, etc.)
+                data[key] = documentCounts[index] || 0;
             }
         });
     
