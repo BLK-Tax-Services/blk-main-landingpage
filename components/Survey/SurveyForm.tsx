@@ -17,217 +17,249 @@ const AiOutlineArrowLeft = (props) => <svg {...props} stroke="currentColor" fill
 // --- END: Icon components ---
 
 interface FormData {
-  fullName: string;
-  email: string;
-  phone: string;
+    fullName: string;
+    email: string;
+    phone: string;
 }
 
 interface Errors {
-  documents?: string;
-  businessMethod?: string;
-  marriageStatus?: string;
-  fullName?: string;
-  email?: string;
-  phone?: string;
+    documents?: string;
+    businessMethod?: string;
+    marriageStatus?: string;
+    fullName?: string;
+    email?: string;
+    phone?: string;
 }
 
 const documentItems = [
-  "Retirement distribution (1099-R)", 
-  "Social Security (SSA-1099)", 
-  "State or local tax refund (1099-G)", 
-  "Unemployment compensation (1099-G)", 
-  "Interest (1099-INT)", 
-  "Dividends (1099-DIV)", 
-  "Sold stocks or investments (1099-B)", 
-  "Canceled debt (1099-C)", 
-  "ESA or 529 distribution (1099-Q)", 
-  "HSA or MSA distribution (1099-SA)", 
-  "Partnership (Schedule K-1)", 
-  "Gambling (W-2G)", 
-  "Farming",
-  "Self Employment Income (1099-NEC)",
-  "Other Income (1099-MISC)",
-  "Real Estate Property"
+    "Retirement distribution (1099-R)", 
+    "Social Security (SSA-1099)", 
+    "State or local tax refund (1099-G)", 
+    "Unemployment compensation (1099-G)", 
+    "Interest (1099-INT)", 
+    "Dividends (1099-DIV)", 
+    "Sold stocks or investments (1099-B)", 
+    "Canceled debt (1099-C)", 
+    "ESA or 529 distribution (1099-Q)", 
+    "HSA or MSA distribution (1099-SA)", 
+    "Partnership (Schedule K-1)", 
+    "Gambling (W-2G)", 
+    "Farming",
+    "Self Employment Income (1099-NEC)",
+    "Other Income (1099-MISC)",
+    "Real Estate Property",
+    "Royalties",
+    "S Corporation (Schedule K-1)",
+    "Estate or Trust (Schedule K-1)"
 ];
 
 const marriageOptions = ["Single", "Head of Household", "Married Filing Jointly", "Married Filing Separately", "Qualifying Widow"];
 
 const documentKeyMapping: Record<number, string> = { 
-  0: "retirementDistribution",
-  1: "socialSecuritySSA",
-  2: "stateOrLocalTaxRefund",
-  3: "unemploymentCompensation",
-  4: "interest",
-  5: "dividends",
-  6: "soldStockOrInvestments",
-  7: "canceledDebt",
-  8: "esaOrFtnDistribution",
-  9: "hsaOrMsaDistribution",
-  10: "partnershipSchedule",
-  11: "gambling",
-  12: "farming",
-  13: "selfEmployment",
-  14: "otherIncome",
-  15: "rent"
+    0: "retirementDistribution",
+    1: "socialSecuritySSA",
+    2: "stateOrLocalTaxRefund",
+    3: "unemploymentCompensation",
+    4: "interest",
+    5: "dividends",
+    6: "soldStockOrInvestments",
+    7: "canceledDebt",
+    8: "esaOrFtnDistribution",
+    9: "hsaOrMsaDistribution",
+    10: "partnershipSchedule",
+    11: "gambling",
+    12: "farming",
+    13: "selfEmployment",
+    14: "otherIncome",
+    15: "rent",
+    16: "royalties",
+    17: "sCorporationSchedule",
+    18: "estateOrTrustSchedule"
 };
 
 const SurveyForm = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [businessMethod, setBusinessMethod] = useState("");
-  const [documentCounts, setDocumentCounts] = useState<Record<number, number>>({});
-  const [formData, setFormData] = useState<FormData>({ fullName: "", email: "", phone: "" });
-  const [marriageStatus, setMarriageStatus] = useState<string>("");
-  const [childrenCount, setChildrenCount] = useState<number>(0);
-  const [errors, setErrors] = useState<Errors>({});
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [otherIncomeChecked, setOtherIncomeChecked] = useState(false);
-  const [otherIncomeText, setOtherIncomeText] = useState("");
+    const [currentStep, setCurrentStep] = useState(1);
+    const [businessMethod, setBusinessMethod] = useState("");
+    const [documentCounts, setDocumentCounts] = useState<Record<number, number>>({});
+    const [formData, setFormData] = useState<FormData>({ fullName: "", email: "", phone: "" });
+    const [marriageStatus, setMarriageStatus] = useState<string>("");
+    const [childrenCount, setChildrenCount] = useState<number>(0);
+    const [errors, setErrors] = useState<Errors>({});
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [otherIncomeChecked, setOtherIncomeChecked] = useState(false);
+    const [otherIncomeText, setOtherIncomeText] = useState("");
 
-  useEffect(() => {
-    const initialCounts: Record<number, number> = {};
-    documentItems.forEach((_, index) => { initialCounts[index] = 0; });
-    setDocumentCounts(initialCounts);
-  }, []);
+    useEffect(() => {
+        const initialCounts: Record<number, number> = {};
+        documentItems.forEach((_, index) => { initialCounts[index] = 0; });
+        setDocumentCounts(initialCounts);
+    }, []);
 
-  const validateStep = () => {
-    const newErrors: Errors = {};
-    if (currentStep === 1) {
-      const totalDocuments = Object.values(documentCounts).reduce((acc, val) => acc + val, 0);
-      if (totalDocuments === 0 && !otherIncomeChecked) newErrors.documents = "Please select at least one document type or check 'Other'.";
-    }
-    if (currentStep === 2 && !businessMethod) newErrors.businessMethod = "Please select a business method.";
-    if (currentStep === 3 && !marriageStatus) newErrors.marriageStatus = "Please select your filing status.";
-    if (currentStep === 4) {
-      if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
-      if (!formData.email.trim()) newErrors.email = "Email is required";
-      else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
-      
-      const phoneDigits = formData.phone.replace(/\D/g, '');
-      if (!phoneDigits) {
-        newErrors.phone = "Phone number is required";
-      } else if (phoneDigits.length !== 10) {
-        newErrors.phone = "Please enter a valid 10-digit phone number";
-      }
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    const validateStep = () => {
+        const newErrors: Errors = {};
+        if (currentStep === 1) {
+            const totalDocuments = Object.values(documentCounts).reduce((acc, val) => acc + val, 0);
+            if (totalDocuments === 0 && !otherIncomeChecked) newErrors.documents = "Please select at least one document type or check 'Other'.";
+        }
+        if (currentStep === 2 && !businessMethod) newErrors.businessMethod = "Please select a business method.";
+        if (currentStep === 3 && !marriageStatus) newErrors.marriageStatus = "Please select your filing status.";
+        if (currentStep === 4) {
+            if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
+            if (!formData.email.trim()) newErrors.email = "Email is required";
+            else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
+            
+            const phoneDigits = formData.phone.replace(/\D/g, '');
+            if (!phoneDigits) {
+                newErrors.phone = "Phone number is required";
+            } else if (phoneDigits.length !== 10) {
+                newErrors.phone = "Please enter a valid 10-digit phone number";
+            }
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
-  const handleNextStep = () => {
-    if (validateStep()) setCurrentStep((prev) => Math.min(prev + 1, 5));
-    else toast.error("Please complete the current step before proceeding.");
-  };
+    const handleNextStep = () => {
+        if (validateStep()) setCurrentStep((prev) => Math.min(prev + 1, 5));
+        else toast.error("Please complete the current step before proceeding.");
+    };
 
-  const handleBackStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
-  const handleIncrement = (index: number) => { setDocumentCounts((prev) => ({ ...prev, [index]: (prev[index] || 0) + 1 })); setErrors((prev) => ({ ...prev, documents: undefined })); };
-  const handleDecrement = (index: number) => { setDocumentCounts((prev) => ({ ...prev, [index]: Math.max((prev[index] || 0) - 1, 0) })); };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => { const { name, value } = e.target; setFormData((prev) => ({ ...prev, [name]: value })); setErrors((prev) => ({ ...prev, [name]: undefined })); };
-  
-  // FIX 2: This new handler will auto-format the phone number as the user types.
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value.replace(/\D/g, '').substring(0, 10); // Get only digits, max 10
-    const phoneNumberLength = input.length;
-    let formattedPhoneNumber = "";
-
-    if (phoneNumberLength > 0) {
-      formattedPhoneNumber = `(${input.substring(0, 3)}`;
-    }
-    if (phoneNumberLength > 3) {
-      formattedPhoneNumber += `) ${input.substring(3, 6)}`;
-    }
-    if (phoneNumberLength > 6) {
-      formattedPhoneNumber += `-${input.substring(6, 10)}`;
-    }
-
-    setFormData(prev => ({ ...prev, phone: formattedPhoneNumber }));
-
-    if (phoneNumberLength === 10) {
-        setErrors(prev => ({ ...prev, phone: undefined }));
-    }
-  };
-  
-  const handleMarriageStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newStatus = e.target.value;
-    setMarriageStatus(newStatus);
-    setErrors((prev) => ({ ...prev, marriageStatus: undefined }));
-    if ((newStatus === "Head of Household" || newStatus === "Qualifying Widow") && childrenCount < 1) {
-      setChildrenCount(1);
-    }
-  };
-
-  const handleChildrenDecrement = () => {
-    if ((marriageStatus === "Head of Household" || marriageStatus === "Qualifying Widow") && childrenCount <= 1) {
-      toast.error("Your filing status requires at least 1 dependent.");
-      return;
-    }
-    setChildrenCount(Math.max(childrenCount - 1, 0));
-  };
-  
-  const handleChildrenIncrement = () => {
-    setChildrenCount(childrenCount + 1);
-  };
-
-  const handleSubmit = async () => {
-    if (!validateStep()) { toast.error("Please fix the errors in your personal information."); return; }
-    setIsSubmitting(true);
+    const handleBackStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
+    const handleIncrement = (index: number) => { setDocumentCounts((prev) => ({ ...prev, [index]: (prev[index] || 0) + 1 })); setErrors((prev) => ({ ...prev, documents: undefined })); };
+    const handleDecrement = (index: number) => { setDocumentCounts((prev) => ({ ...prev, [index]: Math.max((prev[index] || 0) - 1, 0) })); };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => { const { name, value } = e.target; setFormData((prev) => ({ ...prev, [name]: value })); setErrors((prev) => ({ ...prev, [name]: undefined })); };
     
-    // FIX 3: Clean the phone number before sending it to the backend.
-    const phoneDigits = formData.phone.replace(/\D/g, '');
-    
-    const data: Record<string, any> = { 
-        name: formData.fullName, 
-        email: formData.email, 
-        phone: `+1${phoneDigits}`, 
-        filingStatus: marriageStatus,
-        married: marriageStatus.startsWith("Married"), 
-        children: childrenCount, 
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value.replace(/\D/g, '').substring(0, 10);
+        const phoneNumberLength = input.length;
+        let formattedPhoneNumber = "";
+
+        if (phoneNumberLength > 0) {
+            formattedPhoneNumber = `(${input.substring(0, 3)}`;
+        }
+        if (phoneNumberLength > 3) {
+            formattedPhoneNumber += `) ${input.substring(3, 6)}`;
+        }
+        if (phoneNumberLength > 6) {
+            formattedPhoneNumber += `-${input.substring(6, 10)}`;
+        }
+
+        setFormData(prev => ({ ...prev, phone: formattedPhoneNumber }));
+
+        if (phoneNumberLength === 10) {
+            setErrors(prev => ({ ...prev, phone: undefined }));
+        }
     };
     
-    documentItems.forEach((_, index) => {
-        const key = documentKeyMapping[index];
-        if (key) {
-            // data[key] = (documentCounts[index] || 0) > 0;
-            data[key] = (documentCounts[index] || 0) > 0 ? 1 : 0;
+    const handleMarriageStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newStatus = e.target.value;
+        setMarriageStatus(newStatus);
+        setErrors((prev) => ({ ...prev, marriageStatus: undefined }));
+        if ((newStatus === "Head of Household" || newStatus === "Qualifying Widow") && childrenCount < 1) {
+            setChildrenCount(1);
         }
-    });
+    };
 
-    data.employment = 0;
+    const handleChildrenDecrement = () => {
+        if ((marriageStatus === "Head of Household" || marriageStatus === "Qualifying Widow") && childrenCount <= 1) {
+            toast.error("Your filing status requires at least 1 dependent.");
+            return;
+        }
+        setChildrenCount(Math.max(childrenCount - 1, 0));
+    };
+    
+    const handleChildrenIncrement = () => {
+        setChildrenCount(childrenCount + 1);
+    };
 
-    if (otherIncomeChecked && otherIncomeText.trim()) {
-        data.otherIncomeExplanation = otherIncomeText;
-    }
+    // =========================================================================
+    // ✅ START OF FIX
+    // =========================================================================
+    const handleSubmit = async () => {
+        if (!validateStep()) { toast.error("Please fix the errors in your personal information."); return; }
+        setIsSubmitting(true);
+        
+        const phoneDigits = formData.phone.replace(/\D/g, '');
+        
+        const data: Record<string, any> = { 
+            name: formData.fullName, 
+            email: formData.email, 
+            phone: `+1${phoneDigits}`, 
+            filingStatus: marriageStatus,
+            married: marriageStatus.startsWith("Married"), 
+            children: childrenCount, 
+        };
+        
+        // STEP 1: Define a list of ALL numeric fields the backend requires.
+        const allNumericFields = [
+            "employment", "retirementDistribution", "socialSecuritySSA", "selfEmployment",
+            "stateOrLocalTaxRefund", "unemploymentCompensation", "interest", "dividends",
+            "soldStockOrInvestments", "canceledDebt", "rent", "royalties",
+            "esaOrFtnDistribution", "hsaOrMsaDistribution", "partnershipSchedule",
+            "sCorporationSchedule", "estateOrTrustSchedule", "gambling", "farming"
+        ];
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/initialSurvey`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data), });
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Server validation error:", errorData);
-        throw new Error(`Server error: ${response.statusText}`);
-      }
-      await response.json();
-      toast.success("Form submitted successfully!");
-      setFormData({ fullName: "", email: "", phone: "" });
-      setDocumentCounts({});
-      setBusinessMethod("");
-      setMarriageStatus("");
-      setChildrenCount(0);
-      setOtherIncomeChecked(false);
-      setOtherIncomeText("");
-      setCurrentStep(5);
-    } catch (error) {
-      toast.error("Error submitting the form. Please check the console for details.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-  
-  const steps = [ { step: 1, icon: FaFileAlt, label: "Documents" }, { step: 2, icon: FaDollarSign, label: "Payment" }, { step: 3, icon: FaHeart, label: "Family" }, { step: 4, icon: FaPhone, label: "Contact" } ];
+        // STEP 2: Set the value using actual document counts.
+        documentItems.forEach((_, index) => {
+            const key = documentKeyMapping[index];
+            if (key) {
+                // Use the actual count (0, 1, 2, 3, etc.)
+                data[key] = documentCounts[index] || 0;
+            }
+        });
+    
+        // STEP 3: Ensure all other required numeric fields exist and are set to 0.
+        // This loop guarantees the payload matches the backend's validation rules.
+        allNumericFields.forEach(field => {
+            if (data[field] === undefined) {
+                data[field] = 0;
+            }
+        });
 
-  return (
-    <section className="min-h-screen bg-gray-50 dark:bg-[#151A21] py-12 sm:py-20 px-4">
-        {/* Toastify CSS is inlined for simplicity */}
-        <style>{`.Toastify__toast-container{z-index:9999;position:fixed;padding:4px;width:320px;box-sizing:border-box;color:#fff}.Toastify__toast-container--top-left{top:1em;left:1em}.Toastify__toast-container--top-center{top:1em;left:50%;transform:translateX(-50%)}.Toastify__toast-container--top-right{top:1em;right:1em}.Toastify__toast-container--bottom-left{bottom:1em;left:1em}.Toastify__toast-container--bottom-center{bottom:1em;left:50%;transform:translateX(-50%)}.Toastify__toast-container--bottom-right{bottom:1em;right:1em}@media only screen and (max-width: 480px){.Toastify__toast-container{width:100vw;padding:0;left:0;margin:0}}.Toastify__toast{position:relative;min-height:64px;box-sizing:border-box;margin-bottom:1rem;padding:8px;border-radius:4px;box-shadow:0 1px 10px 0 rgba(0,0,0,.1),0 2px 15px 0 rgba(0,0,0,.05);display:flex;justify-content:space-between;max-height:800px;overflow:hidden;font-family:sans-serif;cursor:pointer;direction:ltr}.Toastify__toast--rtl{direction:rtl}.Toastify__toast-body{margin:auto 0;flex:1 1 auto;padding:6px}.Toastify__close-button{color:#fff;font-weight:700;font-size:14px;background:0 0;outline:none;border:none;padding:0;cursor:pointer;opacity:.7;transition:.3s ease;align-self:flex-start}.Toastify__close-button:hover{opacity:1}}`}</style>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+        if (otherIncomeChecked && otherIncomeText.trim()) {
+            data.otherIncomeExplanation = otherIncomeText;
+        }
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/initialSurvey`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Server validation error:", errorData);
+                throw new Error(`Server error: ${response.statusText}`);
+            }
+
+            await response.json();
+            toast.success("Form submitted successfully!");
+            setFormData({ fullName: "", email: "", phone: "" });
+            setDocumentCounts({});
+            setBusinessMethod("");
+            setMarriageStatus("");
+            setChildrenCount(0);
+            setOtherIncomeChecked(false);
+            setOtherIncomeText("");
+            setCurrentStep(5);
+        } catch (error) {
+            toast.error("Error submitting the form. Please check the console for details.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+    // =========================================================================
+    // END OF FIX
+    // =========================================================================
+    
+    const steps = [ { step: 1, icon: FaFileAlt, label: "Documents" }, { step: 2, icon: FaDollarSign, label: "Payment" }, { step: 3, icon: FaHeart, label: "Family" }, { step: 4, icon: FaPhone, label: "Contact" } ];
+
+    return (
+        <section className="min-h-screen bg-gray-50 dark:bg-[#151A21] py-12 sm:py-20 px-4">
+            {/* ... (The rest of your JSX remains exactly the same) ... */}
+            <style>{`.Toastify__toast-container{z-index:9999;position:fixed;padding:4px;width:320px;box-sizing:border-box;color:#fff}.Toastify__toast-container--top-left{top:1em;left:1em}.Toastify__toast-container--top-center{top:1em;left:50%;transform:translateX(-50%)}.Toastify__toast-container--top-right{top:1em;right:1em}.Toastify__toast-container--bottom-left{bottom:1em;left:1em}.Toastify__toast-container--bottom-center{bottom:1em;left:50%;transform:translateX(-50%)}.Toastify__toast-container--bottom-right{bottom:1em;right:1em}@media only screen and (max-width: 480px){.Toastify__toast-container{width:100vw;padding:0;left:0;margin:0}}.Toastify__toast{position:relative;min-height:64px;box-sizing:border-box;margin-bottom:1rem;padding:8px;border-radius:4px;box-shadow:0 1px 10px 0 rgba(0,0,0,.1),0 2px 15px 0 rgba(0,0,0,.05);display:flex;justify-content:space-between;max-height:800px;overflow:hidden;font-family:sans-serif;cursor:pointer;direction:ltr}.Toastify__toast--rtl{direction:rtl}.Toastify__toast-body{margin:auto 0;flex:1 1 auto;padding:6px}.Toastify__close-button{color:#fff;font-weight:700;font-size:14px;background:0 0;outline:none;border:none;padding:0;cursor:pointer;opacity:.7;transition:.3s ease;align-self:flex-start}.Toastify__close-button:hover{opacity:1}}`}</style>
+             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       <div className="relative mx-auto max-w-4xl">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative rounded-2xl bg-white dark:bg-black shadow-2xl overflow-hidden">
           <div className="px-6 py-8 sm:px-10 sm:py-12">
@@ -353,7 +385,6 @@ const SurveyForm = () => {
                                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                             <span className="text-gray-500 dark:text-gray-400 sm:text-sm">+1</span>
                                         </div>
-                                        {/* FIX 4: Connect the phone input to its specific handler and use the formatted value */}
                                         <input
                                             id="phone"
                                             name="phone"
@@ -406,7 +437,7 @@ const SurveyForm = () => {
         </motion.div>
       </div>
     </section>
-  );
+    );
 };
 
 const UserTypeCard = ({ icon: Icon, title, description, selected, onClick }) => (
@@ -427,4 +458,3 @@ const InputField = ({ id, name, label, error, ...props }) => (
 );
 
 export default SurveyForm;
-
