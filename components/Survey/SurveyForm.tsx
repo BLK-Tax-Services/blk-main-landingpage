@@ -32,6 +32,7 @@ interface Errors {
 }
 
 const documentItems = [
+    "W-2",
     "Retirement distribution (1099-R)", 
     "Social Security (SSA-1099)", 
     "State or local tax refund (1099-G)", 
@@ -56,25 +57,26 @@ const documentItems = [
 const marriageOptions = ["Single", "Head of Household", "Married Filing Jointly", "Married Filing Separately", "Qualifying Widow"];
 
 const documentKeyMapping: Record<number, string> = { 
-    0: "retirementDistribution",
-    1: "socialSecuritySSA",
-    2: "stateOrLocalTaxRefund",
-    3: "unemploymentCompensation",
-    4: "interest",
-    5: "dividends",
-    6: "soldStockOrInvestments",
-    7: "canceledDebt",
-    8: "esaOrFtnDistribution",
-    9: "hsaOrMsaDistribution",
-    10: "partnershipSchedule",
-    11: "gambling",
-    12: "farming",
-    13: "selfEmployment",
-    14: "otherIncome",
-    15: "rent",
-    16: "royalties",
-    17: "sCorporationSchedule",
-    18: "estateOrTrustSchedule"
+    0: "employment",
+    1: "retirementDistribution",
+    2: "socialSecuritySSA",
+    3: "stateOrLocalTaxRefund",
+    4: "unemploymentCompensation",
+    5: "interest",
+    6: "dividends",
+    7: "soldStockOrInvestments",
+    8: "canceledDebt",
+    9: "esaOrFtnDistribution",
+    10: "hsaOrMsaDistribution",
+    11: "partnershipSchedule",
+    12: "gambling",
+    13: "farming",
+    14: "selfEmployment",
+    15: "otherIncome",
+    16: "rent",
+    17: "royalties",
+    18: "sCorporationSchedule",
+    19: "estateOrTrustSchedule"
 };
 
 const SurveyForm = () => {

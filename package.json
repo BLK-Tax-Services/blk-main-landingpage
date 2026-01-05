@@ -25,7 +25,6 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.485.0",
     "motion": "^12.6.2",
-    "next": "^13.5.6",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.2.1",
     "pnpm": "^10.17.0",
