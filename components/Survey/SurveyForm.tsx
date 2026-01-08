@@ -348,10 +348,12 @@ const SurveyForm = () => {
                                 <UserTypeCard icon={FaDollarSign} title="Invoice" description="Pay securely via a credit/debit card after your return is completed" selected={businessMethod === 'invoice'} onClick={() => setBusinessMethod('invoice')} />
                                 <UserTypeCard icon={FaDollarSign} title="Pay by Refund" description="Your refund will be deposited into a temporary bank account, and our fees will be deducted from it" selected={businessMethod === 'refund'} onClick={() => setBusinessMethod('refund')} />
                             </div>
-							<div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-								<p className="font-semibold">*There are no additional fees for choosing this option, but it may slightly reduce the size of your refund.*</p>
-								<p className="italic mt-2">*Selecting this option authorizes us to act on your behalf in this manner.*</p>
-							</div>
+                            {businessMethod === 'refund' && (
+                                <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                                    <p className="font-semibold">*There are no additional fees for choosing this option, but it may slightly reduce the size of your refund.*</p>
+                                    <p className="italic mt-2">*Selecting this option authorizes us to act on your behalf in this manner.*</p>
+                                </div>
+                            )}
                         </motion.div>
                     )}
                     {currentStep === 3 && (
