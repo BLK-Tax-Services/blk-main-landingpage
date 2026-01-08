@@ -318,7 +318,7 @@ const SurveyForm = () => {
                                         onChange={(e) => setOtherIncomeChecked(e.target.checked)}
                                     />
                                     <label htmlFor="other-income-checkbox" className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        Other
+                                        Other/Additional Information
                                     </label>
                                 </div>
                                 {otherIncomeChecked && (
@@ -330,7 +330,7 @@ const SurveyForm = () => {
                                         <textarea
                                             value={otherIncomeText}
                                             onChange={(e) => setOtherIncomeText(e.target.value)}
-                                            placeholder="explain other income"
+                                            placeholder="Describe any further income sources..."
                                             className="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 py-3 px-4 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 dark:text-white"
                                             rows={3}
                                         />
@@ -341,13 +341,17 @@ const SurveyForm = () => {
                     )}
                     {currentStep === 2 && (
                         <motion.div key="step2" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.3 }} className="w-full">
-                            <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 dark:text-white mb-2">Select Payment Method for tax preparation</h2>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 dark:text-white mb-2">How would you like to pay for your tax preparation?</h2>
                             <p className="text-center text-gray-500 dark:text-gray-400 mb-8">Don’t worry! We will not charge you until your return is complete.</p>
                             {errors.businessMethod && <p className="text-center text-red-500 mb-4">{errors.businessMethod}</p>}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                                <UserTypeCard icon={FaDollarSign} title="Invoice / Card" description="Pay securely via invoice or card" selected={businessMethod === 'invoice'} onClick={() => setBusinessMethod('invoice')} />
-                                <UserTypeCard icon={FaDollarSign} title="Deduct from Refund" description="Fees are taken from your refund" selected={businessMethod === 'refund'} onClick={() => setBusinessMethod('refund')} />
+                                <UserTypeCard icon={FaDollarSign} title="Invoice" description="Pay securely via a credit/debit card after your return is completed" selected={businessMethod === 'invoice'} onClick={() => setBusinessMethod('invoice')} />
+                                <UserTypeCard icon={FaDollarSign} title="Pay by Refund" description="Your refund will be deposited into a temporary bank account, and our fees will be deducted from it" selected={businessMethod === 'refund'} onClick={() => setBusinessMethod('refund')} />
                             </div>
+							<div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+								<p className="font-semibold">*There are no additional fees for choosing this option, but it may slightly reduce the size of your refund.*</p>
+								<p className="italic mt-2">*Selecting this option authorizes us to act on your behalf in this manner.*</p>
+							</div>
                         </motion.div>
                     )}
                     {currentStep === 3 && (
