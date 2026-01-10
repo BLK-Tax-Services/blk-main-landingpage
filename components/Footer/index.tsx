@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 // Updated lucide-react imports
-import { Instagram, Linkedin } from "lucide-react";
+import { Instagram, Linkedin, ShieldCheckIcon, BadgeCheckIcon } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -98,26 +98,46 @@ const Footer = () => {
 
         {/* Footer Bottom Section */}
         <div className="flex flex-col-reverse items-center justify-between gap-y-4 py-8 md:flex-row">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            &copy; {new Date().getFullYear()} BLK. All rights reserved
-          </p>
+          <div className="flex items-center gap-x-8">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              &copy; {new Date().getFullYear()} BLK. All rights reserved
+            </p>
+            <div className="flex items-center gap-x-3">
+              <ShieldCheckIcon className="h-5 w-5 text-gray-400" />
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                256-Bit SSL Secured
+              </span>
+            </div>
+             <div className="flex items-center gap-x-3">
+              <BadgeCheckIcon className="h-5 w-5 text-gray-400" />
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                IRS Authorized E-File Provider
+              </span>
+            </div>
+            <div className="flex items-center gap-x-3">
+                <Image src="https://js.stripe.com/v3/fingerprinted/img/visa-729c2183c5ce752675685a9b83f3e132.svg" width="30" height="30" alt="Stripe" />
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                Secure Payments by Stripe
+              </span>
+            </div>
+          </div>
           <div className="flex items-center space-x-4">
             {/* Updated Instagram Link and Icon */}
-            <a 
-              href="https://www.instagram.com/blktax/?hl=en" 
-              aria-label="Instagram" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://www.instagram.com/blktax/?hl=en"
+              aria-label="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-400 transition-colors hover:text-primary"
             >
               <Instagram />
             </a>
             {/* Updated LinkedIn Link */}
-            <a 
-              href="https://www.linkedin.com/company/blk-tax" 
-              aria-label="LinkedIn" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://www.linkedin.com/company/blk-tax"
+              aria-label="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-400 transition-colors hover:text-primary"
             >
               <Linkedin />
