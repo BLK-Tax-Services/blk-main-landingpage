@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@lottiefiles/lottie-player": "^2.0.12",
     "@next/font": "^14.2.15",
     "@next/mdx": "^15.5.9",
@@ -24,7 +25,6 @@
     "framer-motion": "^10.18.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.485.0",
-    "motion": "^12.6.2",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.2.1",
     "postcss": "^8.4.31",
