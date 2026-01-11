@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp, ShieldCheck, Clock } from "lucide-react";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 // Animation variants
 const containerVariants = {
@@ -44,9 +45,8 @@ const cardVariants = {
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-white dark:bg-black">
-      <div className="absolute inset-0 z-0 opacity-50 dark:opacity-100">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(68,76,231,0.15),transparent_80%)]"></div>
-      </div>
+      {/* Background Beams Effect */}
+      <BackgroundBeams className="opacity-40 dark:opacity-60" />
       
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-24 pb-16 text-center sm:pt-32 sm:pb-20">
         <motion.div
@@ -84,7 +84,7 @@ export default function Hero() {
             className="mt-10 flex items-center justify-center gap-4"
           >
             <a
-              href="/survey"
+              href="/contactus"
               className="group inline-flex items-center justify-center rounded-lg bg-blue-600 px-8 py-3 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/30"
             >
               Get Started
@@ -142,7 +142,7 @@ export default function Hero() {
             <FeatureCard
               icon={ShieldCheck}
               title="File with Confidence"
-              description="Get peace of mind with our accuracy guarantee and year-round support from certified tax professionals."
+              description="Every return is backed by our accuracy guarantee and includes audit assistance from certified tax professionals so you can file with confidence."
             />
          </motion.div>
       </div>

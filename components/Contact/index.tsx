@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Send, Bot } from 'lucide-react';
+import { Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import SectionHeader from '../Common/SectionHeader';
 
@@ -13,43 +13,37 @@ const Contact = () => {
     phone: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
-    console.log('Sending Message:', formData);
-    toast.success('Message sent successfully!');
-    setFormData({ fullName: '', email: '', subject: '', phone: '', message: '' });
-  };
-  
-  const handleAISalesBot = async (e) => {
-    e.preventDefault();
-    const botPromise = fetch(`${process.env.NEXT_PUBLIC_AI_APP_URL}/outbound`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-
-    toast.promise(botPromise, {
-      loading: 'Contacting our AI Sales Bot...',
-      success: 'Your info was sent to our AI!',
-      error: 'Oops! Something went wrong.',
-    });
+    setIsSubmitting(true);
 
     try {
-      const response = await botPromise;
-      if (!response.ok) throw new Error('API responded with an error');
-      const result = await response.json();
-      console.log('AI Sales Bot response:', result);
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        toast.success('Message sent successfully! We\'ll get back to you soon.');
+        setFormData({ fullName: '', email: '', subject: '', phone: '', message: '' });
+      } else {
+        throw new Error('Failed to send message');
+      }
     } catch (error) {
-      console.error('Error sending to AI Sales Bot:', error);
+      console.error('Error sending message:', error);
+      toast.error('Failed to send message. Please try again or email us directly.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
 
   return (
     <section id="support" className="relative bg-white py-20 dark:bg-black sm:py-24">
@@ -62,7 +56,7 @@ const Contact = () => {
           }}
         />
 
-        {/* New Email Callout Section */}
+        {/* Email Callout Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -70,17 +64,8 @@ const Contact = () => {
           viewport={{ once: true }}
           className="mt-12 text-center"
         >
-          <h3 className="text-lg text-gray-600 dark:text-gray-400">
-            You can reach us directly by email
-          </h3>
-          <a
-            href="mailto:info@blktaxservices.com"
-            className="mt-2 inline-block text-2xl font-semibold text-blue-600 hover:underline dark:text-blue-500 sm:text-3xl"
-          >
-            info@blktaxservices.com
-          </a>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-            Or fill out the form below to send us a message.
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            Fill out the form below and we'll get back to you as soon as possible.
           </p>
         </motion.div>
 
@@ -143,16 +128,10 @@ const Contact = () => {
             <div className="flex flex-col items-center gap-4 pt-4 sm:flex-row sm:justify-center">
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-md bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700 sm:w-auto"
+                disabled={isSubmitting}
+                className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-md bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto"
               >
-                Send Message <Send className="h-5 w-5" />
-              </button>
-              <button
-                type="button"
-                onClick={handleAISalesBot}
-                className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-md bg-blue-600/10 px-6 py-3 font-semibold text-blue-600 transition-colors hover:bg-blue-600/20 dark:bg-blue-600/20 dark:text-blue-400 dark:hover:bg-blue-600/30 sm:w-auto"
-              >
-                Talk to AI Bot <Bot className="h-5 w-5" />
+                {isSubmitting ? 'Sending...' : 'Send Message'} <Send className="h-5 w-5" />
               </button>
             </div>
           </form>

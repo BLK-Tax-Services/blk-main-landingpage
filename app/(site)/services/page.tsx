@@ -31,7 +31,7 @@ const ServiceTab = () => {
               </p>
               <div className="mt-10">
                 <Link
-                  href="/survey"
+                  href="/contactus"
                   className="inline-block rounded-md bg-blue-600 px-8 py-3 text-lg font-semibold text-white transition-transform duration-300 hover:scale-105 hover:bg-blue-700"
                 >
                   Explore Services
