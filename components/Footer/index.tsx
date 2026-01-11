@@ -49,8 +49,6 @@ const Footer = () => {
             <ul className="space-y-3">
               <li><Link href="/" className="text-gray-600 transition-colors hover:text-primary dark:text-gray-400">Home</Link></li>
               <li><Link href="/services" className="text-gray-600 transition-colors hover:text-primary dark:text-gray-400">Services</Link></li>
-              <li><Link href="/aboutus" className="text-gray-600 transition-colors hover:text-primary dark:text-gray-400">About Us</Link></li>
-              <li><Link href="/blog" className="text-gray-600 transition-colors hover:text-primary dark:text-gray-400">Blog</Link></li>
             </ul>
           </motion.div>
 

@@ -38,7 +38,7 @@ const ServiceTab = () => {
 
               <div className="mt-10 flex flex-wrap gap-5">
                 <Link
-                  href="/survey"
+                  href="/contactus"
                   aria-label="get started button"
                   className="flex rounded-md bg-meta px-7.5 py-2.5 font-sans text-white duration-300 ease-in-out hover:bg-blackho"
                 >

@@ -6,8 +6,6 @@ import FunFact from "@/components/FunFact";
 import FAQ from "@/components/FAQ";
 import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
-import Blog from "@/components/Blog";
-import Testimonial from "@/components/Testimonial";
 
 
 const logoUrl =
@@ -68,9 +66,7 @@ export default function Home() {
       <Hero />
       <About />
       <FunFact />
-      <Testimonial />
       <Pricing />
-      <Blog />
       <Contact />
       {/* <CTA /> */}
       <FAQ />

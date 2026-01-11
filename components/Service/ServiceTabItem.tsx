@@ -35,10 +35,10 @@ const ServiceTabItem = ({ serviceTab }: { serviceTab: ServiceTabType }) => {
           <div className="mt-6 flex items-baseline justify-between">
             <span className="text-2xl font-bold text-gray-900 dark:text-white">{card.price}</span>
             <Link
-              href="/survey"
+              href="/contactus"
               className="rounded-md bg-blue-600/10 px-4 py-2 text-sm font-semibold text-blue-600 transition-colors hover:bg-blue-600/20 dark:text-blue-400 dark:bg-blue-600/20 dark:hover:bg-blue-600/30"
             >
-              Fill Survey
+              Contact Us
             </Link>
           </div>
         </motion.div>

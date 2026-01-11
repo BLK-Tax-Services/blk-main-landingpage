@@ -88,14 +88,6 @@ const Header = () => {
               </li>
             ))}
           </ul>
-          {!isSurveyPage && (
-            <Link
-              href="/survey"
-              className="rounded-md bg-blue-600 px-5 py-2.5 text-white whitespace-nowrap hover:bg-blue-700 transition-colors"
-            >
-              Client Survey
-            </Link>
-          )}
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
@@ -140,17 +132,6 @@ const Header = () => {
                   )}
                 </li>
               ))}
-              {!isSurveyPage && (
-                <li>
-                  <Link
-                    href="/survey"
-                    onClick={toggleNavigation}
-                    className="block rounded-md bg-blue-600 px-4 py-2 text-center text-white"
-                  >
-                    Client Survey
-                  </Link>
-                </li>
-              )}
             </ul>
           </div>
         )}
