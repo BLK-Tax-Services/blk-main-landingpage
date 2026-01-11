@@ -49,6 +49,9 @@ export default function RootLayout({
   if (isLoading) {
     return (
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <link rel="icon" href="/blklogo.svg" type="image/svg+xml" />
+        </head>
         <body className={`${inter.className} bg-white dark:bg-black`}></body>
       </html>
     );
@@ -56,7 +59,9 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <link rel="icon" href="/blklogo.svg" type="image/svg+xml" />
+      </head>
       <body className={`${inter.className} bg-white antialiased dark:bg-black`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {!isUnlocked ? (
