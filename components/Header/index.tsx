@@ -32,13 +32,13 @@ const Header = () => {
       }`}
     >
       <div className="mx-auto flex max-w-c-1390 items-center justify-between px-4 md:px-8 xl:px-20">
-        <Link href="/" className="w-48 xl:w-64"> {/* Set a responsive width for the container */}
+        <Link href="/" className="w-48 xl:w-64">
           <Image
             src="/images/logo/logo-light.svg"
             alt="logo"
-            width={240} // Base width for calculation
-            height={50}  // Base height for calculation
-            className="w-full h-auto dark:hidden" // Make image fill the container
+            width={240}
+            height={50}
+            className="w-full h-auto dark:hidden"
           />
           <Image
             src="/images/logo/logo-dark.svg"

@@ -4,7 +4,7 @@ const faqData: FAQ[] = [
   {
     id: 1,
     quest: "How do I file my taxes with BLK Tax Services?",
-    ans: "FIling is completely digital. Simply fill out the client survey, upload your tax documents securely through our portal, and our expert team handles the entire process – from preparation through electronic submission",
+    ans: "Filing is completely digital. Simply fill out the client survey, upload your tax documents securely through our portal, and our expert team handles the entire process – from preparation through electronic submission",
   },
   {
     id: 2,
