@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     // Send email using Resend
     const { data, error } = await resend.emails.send({
       from: 'BLK Tax Services <noreply@blktaxservices.com>',
-      to: ['michael@blktaxservices.com', 'devin@blktaxservices.com'],
+      to: ['michael@blktaxservices.com', 'devin@blktaxservices.com', 'odolbiniyam@gmail.com'],
       replyTo: email,
       subject: subject || `New Contact Form Submission from ${fullName}`,
       html: `

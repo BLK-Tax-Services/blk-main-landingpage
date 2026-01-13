@@ -21,7 +21,7 @@ const FAQ = () => {
             transition={{ duration: 0.7 }}
             viewport={{ once: true }}
           >
-            <span className="mb-4 inline-block rounded-md bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
+            <span className="mb-4 inline-block rounded-md bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-600 dark:bg-blue-900/30 dark:text-blue-300">
               OUR FAQS
             </span>
             <h2 className="mb-6 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">

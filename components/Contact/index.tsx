@@ -46,7 +46,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="support" className="relative bg-white py-20 dark:bg-black sm:py-24">
+    <section id="support" className="relative bg-gray-50 py-20 dark:bg-blacksection sm:py-24">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">
         <SectionHeader
           headerInfo={{

@@ -25,14 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const hasAccess = sessionStorage.getItem("site_unlocked") === "true";
-    if (hasAccess) {
-      setIsUnlocked(true);
-    }
     setIsLoading(false);
     import("@lottiefiles/lottie-player");
   }, []);
@@ -40,7 +36,6 @@ export default function RootLayout({
   const handleCodeSubmit = (inputCode: string) => {
     const correctCode = '9274018356228105';
     if (inputCode === correctCode) {
-      sessionStorage.setItem("site_unlocked", "true");
       setIsUnlocked(true);
     }
     setIsModalOpen(false);

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function FunFact() {
   return (
-    <section className="bg-transparent py-12 md:py-20">
+    <section className="bg-gray-50 py-12 dark:bg-blacksection md:py-20">
       <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
         {/* Heading & Subheading */}
         <div className="relative z-10 mx-auto max-w-xl space-y-6 text-center">
@@ -27,7 +27,7 @@ export default function FunFact() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
             viewport={{ once: true }}
-            className="group rounded-lg border border-gray-200 bg-white/70 p-8 text-center shadow-lg backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10"
+            className="group rounded-xl border border-gray-200 bg-white/70 p-8 text-center shadow-lg backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10"
           >
             <div className="text-5xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-500 dark:text-white">
               25
@@ -41,7 +41,7 @@ export default function FunFact() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.2 }}
             viewport={{ once: true }}
-            className="group rounded-lg border border-gray-200 bg-white/70 p-8 text-center shadow-lg backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10"
+            className="group rounded-xl border border-gray-200 bg-white/70 p-8 text-center shadow-lg backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10"
           >
             <div className="text-5xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-500 dark:text-white">
               15+ Yrs
@@ -55,7 +55,7 @@ export default function FunFact() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 }}
             viewport={{ once: true }}
-            className="group rounded-lg border border-gray-200 bg-white/70 p-8 text-center shadow-lg backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10"
+            className="group rounded-xl border border-gray-200 bg-white/70 p-8 text-center shadow-lg backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10"
           >
             <div className="text-5xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-500 dark:text-white">
               $5M+

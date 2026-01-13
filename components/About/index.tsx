@@ -54,7 +54,7 @@ const About = () => {
               </p>
               <Link
                 href={section.learnMoreLink}
-                className="group mt-8 inline-flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
+                className="group mt-8 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-blue-500/30"
               >
                 Learn More
                 <ArrowRight className="h-5 w-5" />
