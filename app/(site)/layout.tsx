@@ -1,6 +1,7 @@
 "use client";
 
 import Footer from "@/components/Footer";
+import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import Header from "@/components/Header";
 import Lines from "@/components/Lines";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -107,6 +108,7 @@ export default function RootLayout({
               <ToasterContext />
               {children}
               <Footer />
+              <CookieConsentBanner />
               <ScrollToTop />
             </div>
           )}
