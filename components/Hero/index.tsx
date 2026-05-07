@@ -81,8 +81,15 @@ export default function Hero() {
           
           <motion.div
             variants={itemVariants}
-            className="mt-10 flex items-center justify-center gap-4"
+            className="mt-10 flex flex-wrap items-center justify-center gap-4"
           >
+            <a
+              href="/survey"
+              className="group inline-flex items-center justify-center rounded-lg bg-emerald-600 px-8 py-3 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-emerald-700 shadow-lg hover:shadow-emerald-500/30"
+            >
+              Start Survey
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
             <a
               href="/contactus"
               className="group inline-flex items-center justify-center rounded-lg bg-blue-600 px-8 py-3 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/30"
