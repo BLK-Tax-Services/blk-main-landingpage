@@ -88,6 +88,12 @@ const Header = () => {
               </li>
             ))}
           </ul>
+          <Link
+            href="/survey"
+            className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+          >
+            Start Survey
+          </Link>
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
@@ -132,6 +138,15 @@ const Header = () => {
                   )}
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/survey"
+                  onClick={toggleNavigation}
+                  className="inline-flex w-full items-center justify-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+                >
+                  Start Survey
+                </Link>
+              </li>
             </ul>
           </div>
         )}

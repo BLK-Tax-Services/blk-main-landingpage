@@ -64,16 +64,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main>
-      <section className="mx-auto max-w-7xl px-4 pt-24 sm:pt-28">
-        <div className="flex justify-center">
-          <a
-            href="/survey"
-            className="inline-flex items-center rounded-lg bg-emerald-600 px-6 py-3 text-base font-semibold text-white transition hover:bg-emerald-700"
-          >
-            Start Survey
-          </a>
-        </div>
-      </section>
       <Hero />
       <About />
       <FunFact />
