@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 const CTA = () => {
@@ -34,14 +33,7 @@ const CTA = () => {
             viewport={{ once: true }}
             className="lg:w-[45%]"
           >
-            <div className="flex items-center justify-start md:justify-end xl:justify-between">
-              <Image
-                width={290}
-                height={299}
-                src="/images/shape/shape-09.png"
-                alt="Saly"
-                className="hidden xl:block"
-              />
+            <div className="flex items-center justify-start md:justify-end">
               <a
                 href="/survey"
                 className="group inline-flex items-center gap-2 rounded-lg bg-blue-600 px-8 py-3 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-blue-500/30"

@@ -1,7 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp, ShieldCheck, Clock } from "lucide-react";
-import { BackgroundBeams } from "@/components/ui/background-beams";
 
 // Animation variants
 const containerVariants = {
@@ -45,9 +44,9 @@ const cardVariants = {
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-white dark:bg-black">
-      {/* Background Beams Effect */}
-      <BackgroundBeams className="opacity-40 dark:opacity-60" />
-      
+      {/* Lightweight CSS-only gradient background */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(59,130,246,0.08),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(59,130,246,0.15),transparent)]" />
+
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-24 pb-16 text-center sm:pt-32 sm:pb-20">
         <motion.div
           variants={containerVariants}
