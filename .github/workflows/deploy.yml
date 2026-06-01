@@ -69,12 +69,19 @@ jobs:
             ENVEOF
             chmod 600 .env
 
-            echo "🚀 Restarting PM2 process..."
-            pm2 restart landing \
-              || pm2 start server.js --name landing --cwd "$DEPLOY_DIR"
+            echo "🛑 Stopping old PM2 process and freeing port 3000..."
+            pm2 stop landing 2>/dev/null || true
+            pm2 delete landing 2>/dev/null || true
+            # Kill any stale process still holding port 3000
+            fuser -k 3000/tcp 2>/dev/null || true
+            sleep 2
 
-            # Give it 4 seconds to stabilise, then show status + recent logs
-            sleep 4
+            echo "🚀 Starting landing with standalone server.js..."
+            pm2 start server.js --name landing --cwd "$DEPLOY_DIR"
+            pm2 save
+
+            # Give it 5 seconds to stabilise, then show status + recent logs
+            sleep 5
             pm2 status
             pm2 logs landing --lines 30 --nostream
 
