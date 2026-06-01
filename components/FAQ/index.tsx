@@ -38,7 +38,7 @@ const FAQ = () => {
             transition={{ duration: 0.7 }}
             viewport={{ once: true }}
           >
-            <div className="rounded-lg bg-white dark:bg-blacksection">
+            <div className="rounded-xl bg-white dark:bg-gray-900">
               {faqData.map((faq) => (
                 <FAQItem
                   key={faq.id}

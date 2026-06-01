@@ -81,7 +81,7 @@ const ArrowRight = (props) => (
 const SingleTestimonial = ({ review }) => {
   const { name, designation, image, content, rating } = review;
   return (
-    <div className="relative flex h-full flex-col justify-between rounded-2xl bg-gray-50 p-8 shadow-lg transition-all hover:shadow-xl dark:bg-blacksection/50">
+    <div className="relative flex h-full flex-col justify-between rounded-2xl bg-gray-50 p-8 shadow-lg transition-all hover:shadow-xl dark:bg-gray-800/70">
       <div>
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -219,10 +219,10 @@ const Testimonial = () => {
             </div>
 
             {/* Custom Navigation Buttons */}
-            <div className="swiper-button-prev-custom absolute top-1/2 left-0 z-10 -translate-y-1/2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-colors hover:bg-gray-100 dark:bg-blacksection dark:hover:bg-gray-800">
+            <div className="swiper-button-prev-custom absolute top-1/2 left-0 z-10 -translate-y-1/2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-colors hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <ArrowLeft className="h-6 w-6 text-gray-800 dark:text-white" />
             </div>
-            <div className="swiper-button-next-custom absolute top-1/2 right-0 z-10 -translate-y-1/2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-colors hover:bg-gray-100 dark:bg-blacksection dark:hover:bg-gray-800">
+            <div className="swiper-button-next-custom absolute top-1/2 right-0 z-10 -translate-y-1/2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-colors hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <ArrowRight className="h-6 w-6 text-gray-800 dark:text-white" />
             </div>
 

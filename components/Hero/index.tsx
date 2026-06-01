@@ -92,7 +92,7 @@ export default function Hero() {
             </a>
             <a
               href="#features"
-              className="inline-flex items-center justify-center rounded-lg px-8 py-3 text-lg font-semibold text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+              className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-8 py-3 text-lg font-semibold text-gray-700 transition-all duration-300 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
             >
               Learn More
             </a>

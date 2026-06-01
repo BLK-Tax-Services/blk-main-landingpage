@@ -64,6 +64,7 @@ const Footer = () => {
               <li><Link href="/contactus" className="text-gray-600 transition-colors hover:text-primary dark:text-gray-400">Contact Us</Link></li>
               <li><Link href="/faq" className="text-gray-600 transition-colors hover:text-primary dark:text-gray-400">FAQ</Link></li>
               <li><Link href="/privacy" className="text-gray-600 transition-colors hover:text-primary dark:text-gray-400">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="text-gray-600 transition-colors hover:text-primary dark:text-gray-400">Terms of Service</Link></li>
             </ul>
           </motion.div>
 

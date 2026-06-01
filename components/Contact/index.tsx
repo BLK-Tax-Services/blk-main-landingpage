@@ -46,7 +46,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="support" className="relative bg-gray-50 py-20 dark:bg-blacksection sm:py-24">
+    <section id="support" className="relative bg-gray-50 py-20 dark:bg-gray-900 sm:py-24">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">
         <SectionHeader
           headerInfo={{
@@ -75,7 +75,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
           viewport={{ once: true }}
-          className="mt-12 mx-auto max-w-2xl rounded-lg bg-gray-50 p-8 shadow-lg dark:bg-blacksection sm:p-12"
+          className="mt-12 mx-auto max-w-2xl rounded-2xl bg-white p-8 shadow-xl dark:bg-gray-800 sm:p-12"
         >
           <form onSubmit={handleSendMessage} className="space-y-6">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -129,7 +129,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-md bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-blue-600 px-8 py-3 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-blue-500/30 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'} <Send className="h-5 w-5" />
               </button>

@@ -36,7 +36,7 @@ const ListItem = ({ index, title, description }) => (
 const About = () => {
   return (
     <section className="bg-white dark:bg-black">
-      <div className="mx-auto max-w-screen-xl px-4 py-16 md:px-8 lg:py-20">
+      <div className="mx-auto max-w-screen-xl px-4 py-20 md:px-8 md:py-24">
         {sectionsData.map((section, index) => (
           <div
             key={section.tag}

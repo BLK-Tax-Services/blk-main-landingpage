@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function FunFact() {
   return (
-    <section className="bg-gray-50 py-12 dark:bg-blacksection md:py-20">
+    <section className="bg-gray-50 py-20 dark:bg-gray-900 md:py-24">
       <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
         {/* Heading & Subheading */}
         <div className="relative z-10 mx-auto max-w-xl space-y-6 text-center">
