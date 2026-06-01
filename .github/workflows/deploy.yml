@@ -3,52 +3,50 @@ name: Deploy Landing page app to VPS
 on:
   push:
     branches:
-      - production  # Change this if needed
+      - production
 
 jobs:
   landing-page-deployment:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) Check out the repo
       - name: Check out code
         uses: actions/checkout@v4
 
-      # 2) Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*' # Or your preferred Node.js version
+          node-version: '22'
 
-      # Create .env file for build-time variables
       - name: Create .env File for Build
         run: |
-          echo "📝 Creating .env file for build..."
-          cat << EOF > .env
+          cat << 'ENVEOF' > .env
           ${{ secrets.ENV_FILE_CONTENTS }}
-          EOF
-          cat .env  # Debug: Show the contents in the logs (be cautious with sensitive data)
+          ENVEOF
 
-      # 3) Install Frontend Dependencies and Build
       - name: Install and Build Landing page
-        working-directory: ./ # Assuming your frontend is in the root of the repo
         run: |
           npm ci
           npm run build
 
-      # 4) SCP the built frontend to the VPS
+      # With output:"standalone", we ship the self-contained standalone dir
+      # plus static assets and public — no node_modules needed on the VPS.
+      - name: Prepare standalone bundle
+        run: |
+          cp -r .next/static .next/standalone/.next/static
+          cp -r public .next/standalone/public
+
       - name: Upload Built Frontend to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "./.next/,./package.json,./package-lock.json,./public/,./.env"
+          source: "./.next/standalone/"
           target: "/home/blk/landing"
           overwrite: true
-          port: 22  # Adjust if using non-standard SSH port
+          port: 22
 
-      # 5) SSH into VPS and Restart PM2
       - name: Restart PM2 Services
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -56,46 +54,36 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "✅ Connected via SSH to $(whoami)@$(hostname)"
-            export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.npm-global/bin:$HOME/.nvm/versions/node/v22.12.0/bin
-            
-            cd /home/blk/landing || { echo "❌ Directory not found! Exiting."; exit 1; }
-            
-            # Create the .env file
-            echo "📝 Creating .env file..."
-            cat << EOF > .env
-            ${{ secrets.ENV_FILE_CONTENTS }}
-            EOF
-            chmod 600 .env  # Restrict permissions for security
-            
-            # Verify Node.js and npm
-            echo "🔍 Checking Node.js and npm..."
-            # Load NVM and Node
+            set -e
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            
-            # Use the installed Node version
             nvm use 22
 
-          
-            which node || { echo "❌ Node.js not found in PATH. Exiting."; exit 1; }
-            which npm || { echo "❌ npm not found in PATH. Exiting."; exit 1; }
-            node -v || { echo "❌ Node.js not installed. Exiting."; exit 1; }
-            npm -v || { echo "❌ npm not installed. Exiting."; exit 1; }
+            DEPLOY_DIR="/home/blk/landing/.next/standalone"
 
-            # Ensure PM2 is installed
-            if ! command -v pm2 &> /dev/null; then
-              echo "⚠ PM2 not found! Installing..."
-              npm install -g pm2
-            fi
+            cd "$DEPLOY_DIR" || { echo "❌ Standalone dir not found at $DEPLOY_DIR"; exit 1; }
 
-            # Install dependencies on the VPS
-            echo "📦 Installing dependencies..."
-            npm ci || { echo "❌ npm ci failed! Exiting."; exit 1; }
+            # Write .env next to server.js so Next.js picks it up
+            cat << 'ENVEOF' > .env
+            ${{ secrets.ENV_FILE_CONTENTS }}
+            ENVEOF
+            chmod 600 .env
 
-            # Restart or start the Next.js app
             echo "🚀 Restarting PM2 process..."
-            pm2 restart landing || pm2 start npm --name landing -- start
+            pm2 restart landing \
+              || pm2 start server.js --name landing --cwd "$DEPLOY_DIR"
 
-            echo "✅ Successfully Deployed Landing page app"
+            # Give it 4 seconds to stabilise, then show status + recent logs
+            sleep 4
+            pm2 status
+            pm2 logs landing --lines 30 --nostream
+
+            STATUS=$(pm2 jlist | node -e "
+              const list = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
+              const app = list.find(p => p.name === 'landing');
+              process.stdout.write(app ? app.pm2_env.status : 'not_found');
+            ")
+            echo "landing status: $STATUS"
+            [ "$STATUS" = "online" ] || { echo "❌ PM2 process is not online after deploy"; exit 1; }
+
+            echo "✅ Successfully deployed landing page"
